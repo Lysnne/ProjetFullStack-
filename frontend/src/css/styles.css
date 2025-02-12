@@ -1,0 +1,440 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #FDF6EC;
+    color: #333;
+    line-height: 1.6;
+    padding-top: 80px; /* Espace pour le header fixe */
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px; /* Ajout de padding horizontal */
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(253, 246, 236, 0.8);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 0.25em 0 rgba(0, 0, 0, 0.15);
+    font-weight: 600;
+    height: 80px;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10000;
+    padding: 0 20px; /* Padding uniforme */
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: #333;
+    text-decoration: none;
+    white-space: nowrap; /* Empêche le logo de passer à la ligne */
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Espacement uniforme entre les éléments */
+}
+
+nav a {
+    color: #666;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 0.9rem;
+    white-space: nowrap; /* Empêche le texte de passer à la ligne */
+}
+
+nav a:hover {
+    color: #333;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 40px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 0.9rem;
+    white-space: nowrap; /* Empêche le texte de passer à la ligne */
+}
+
+.btn-primary {
+    background-color: #DDA15E;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #C17D3B;
+}
+
+.items {
+    display: inline-flex;
+    padding: 4px;
+    align-items: center;
+    border-radius: 46px;
+    background: #E9D4BD;
+}
+
+.itemsdans {
+    display: flex;
+    padding: 8px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 40px;
+    background: #DDA15E;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 0;
+}
+
+.hero-content {
+    text-align: center;
+    max-width: 800px;
+    margin-bottom: 2rem;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.charts {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    flex-wrap: wrap; /* Permet aux graphiques de passer à la ligne si nécessaire */
+    justify-content: center;
+}
+
+.chart {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: 250px; /* Largeur minimale pour éviter des graphiques trop étroits */
+    max-width: 400px; /* Largeur maximale pour maintenir la mise en page sur les grands écrans */
+}
+
+.chart-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.chart-placeholder {
+    width: 100%;
+    height: 150px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+footer {
+    border-top: 1px solid #ddd;
+    padding: 2rem 0;
+    margin-top: 4rem;
+}
+
+.partners {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap; /* Permet aux partenaires de passer à la ligne si nécessaire */
+}
+
+.partner {
+    color: #999;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px 20px;
+    }
+
+    nav {
+        order: 3;
+        width: 100%;
+        justify-content: space-around;
+        margin-top: 10px;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .charts {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .chart {
+        width: 100%;
+        max-width: none;
+    }
+}* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', italiana;
+    background-color: #FDF6EC;
+    color: #333;
+    line-height: 1.6;
+    padding-top: 80px; /* Espace pour le header fixe */
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px; /* Ajout de padding horizontal */
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(253, 246, 236, 0.8);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 0.25em 0 rgba(0, 0, 0, 0.15);
+    font-weight: 600;
+    height: 80px;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10000;
+    padding: 0 20px; /* Padding uniforme */
+}
+
+.logo {
+    font-family: 'Playfair Display', italiana;
+    font-size: 1.5rem;
+    color: #333;
+    text-decoration: none;
+    white-space: nowrap; /* Empêche le logo de passer à la ligne */
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Espacement uniforme entre les éléments */
+}
+
+nav a {
+    color: #666;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 0.9rem;
+    white-space: nowrap; /* Empêche le texte de passer à la ligne */
+}
+
+nav a:hover {
+    color: #333;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 40px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 0.9rem;
+    white-space: nowrap; /* Empêche le texte de passer à la ligne */
+}
+
+.btn-primary {
+    background-color: BB9457;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #DDA15E;
+}
+
+.items {
+    display: inline-flex;
+    padding: 4px;
+    align-items: center;
+    border-radius: 46px;
+    background: #E9D4BD;
+}
+
+.itemsdans {
+    display: flex;
+    padding: 8px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 40px;
+    background: #DDA15E;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 0;
+}
+
+.hero-content {
+    text-align: center;
+    max-width: 800px;
+    margin-bottom: 2rem;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.charts {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    flex-wrap: wrap; /* Permet aux graphiques de passer à la ligne si nécessaire */
+    justify-content: center;
+}
+
+.chart {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: 250px; /* Largeur minimale pour éviter des graphiques trop étroits */
+    max-width: 400px; /* Largeur maximale pour maintenir la mise en page sur les grands écrans */
+}
+
+.chart-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.chart-placeholder {
+    width: 100%;
+    height: 150px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+footer {
+    border-top: 1px solid #ddd;
+    padding: 2rem 0;
+    margin-top: 4rem;
+}
+
+.partners {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap; /* Permet aux partenaires de passer à la ligne si nécessaire */
+}
+
+.partner {
+    color: #999;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px 20px;
+    }
+
+    nav {
+        order: 3;
+        width: 100%;
+        justify-content: space-around;
+        margin-top: 10px;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .charts {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .chart {
+        width: 100%;
+        max-width: none;
+    }
+}
