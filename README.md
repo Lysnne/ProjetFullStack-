@@ -22,6 +22,9 @@ Les utilisateurs pourront observer une navbar simple et attrayante avec plusieur
   
 ## 🥽​​ Installation
 git clone https://github.com/Lysnne/ProjetFullStack-.git
+git checkout -b dev
+git pull origin dev
+
 
 ## 🦺​ Maquette
 ![](https://i.imgur.com/YIF0s58.png)
