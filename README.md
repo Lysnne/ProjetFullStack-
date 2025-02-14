@@ -21,3 +21,4 @@ Les utilisateurs pourront observer une navbar simple et attrayante avec plusieur
 - Base de données: MariaDB
 
 ## 🦺​ Maquette
+![](https://i.imgur.com/7MQODP1.png)
