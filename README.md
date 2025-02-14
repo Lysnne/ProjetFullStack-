@@ -19,6 +19,9 @@ Les utilisateurs pourront observer une navbar simple et attrayante avec plusieur
 - Frontend: React
 - Backend: Spring
 - Base de données: MariaDB
+  
+## 🥽​​ Installation
+git clone https://github.com/Lysnne/ProjetFullStack-.git
 
 ## 🦺​ Maquette
 ![](https://i.imgur.com/YIF0s58.png)
