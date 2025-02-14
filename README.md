@@ -21,11 +21,13 @@ Les utilisateurs pourront observer une navbar simple et attrayante avec plusieur
 - Base de données: MariaDB
   
 ## 🥽​​ Installation
-- git clone https://github.com/Lysnne/ProjetFullStack-.git
-- git checkout -b dev
-- git pull origin dev
-- npm install 
-- npm run dev
+- Sur GitHub
+  - git clone https://github.com/Lysnne/ProjetFullStack-.git
+  - git checkout -b dev
+  - git pull origin dev
+- Sur Visual Code Studio
+  - npm install 
+  - npm run dev
 
 
 ## 🦺​ Maquette
