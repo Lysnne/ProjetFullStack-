@@ -3,14 +3,16 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    
 }
 
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: #FDF6EC;
+    font-family: 'Italiana';
+    /*background-color: #FDF6EC;*/
     color: #333;
     line-height: 1.6;
     padding-top: 80px; /* Espace pour le header fixe */
+    
 }
 
 .container {
@@ -18,6 +20,7 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px; /* Ajout de padding horizontal */
+    
 }
 
 header {
@@ -40,7 +43,7 @@ header {
 .logo {
     font-family: 'Playfair Display', serif;
     font-size: 1.5rem;
-    color: #333;
+    color: #563111, #BC6C25;
     text-decoration: none;
     white-space: nowrap; /* Empêche le logo de passer à la ligne */
 }
@@ -75,12 +78,13 @@ nav a:hover {
 }
 
 .btn-primary {
-    background-color: #DDA15E;
-    color: white;
+    background-color: #E9D4BD;
+    color: black;
 }
 
 .btn-primary:hover {
-    background-color: #C17D3B;
+    background-color: #E9D4BD;
+    color:#E9D4BD;
 }
 
 .items {
@@ -112,6 +116,7 @@ main {
     text-align: center;
     max-width: 800px;
     margin-bottom: 2rem;
+    
 }
 
 h1 {
@@ -225,10 +230,13 @@ footer {
 }
 
 body {
-    font-family: 'Inter', italiana;
-    background-color: #FDF6EC;
+    font-family: 'Italiana';
+    /*background-color: #FDF6EC;*/
+    background-image: url('/ProjetFullStack-Frontend/frontend/images/imagebackground.jpg');
     color: #333;
+    background-size: cover;
     line-height: 1.6;
+    
     padding-top: 80px; /* Espace pour le header fixe */
 }
 
