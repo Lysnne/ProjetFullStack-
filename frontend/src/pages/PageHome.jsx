@@ -1,25 +1,36 @@
-
+import { useState } from 'react';
 import '../css/styles.css'
+
 export default function PageHome() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <div className="container">
       <header>
-        <a href="/" className="logo">Assetra</a>
-        <nav className='items'>
-          <a href="" className='itemsdans'>Home</a>
-          <a href="" className='itemsdans'>about us</a>
-          <a href="" className='itemsdans'>Markets</a>
-          <a href="" className='itemsdans'>Tools</a>
-          <a href="" className='itemsdans'>Support</a>
-
+        <div className='layout'>
+          <a href="/" className="logo">Assetra</a>
+        </div>
+        <nav className={`items ${isMenuOpen ? 'active' : ''}`}>
+          <a href="/" className='itemsdans'>Home</a>
+          <a href="/markets" className='itemsdans'>Markets</a>
+          <a href="/about" className='itemsdans'>About us</a>
+          <a href="/support" className='itemsdans'>Support</a>
         </nav>
-        <button className="btn btn-primary">Sign up</button>
+        <div className="header-right">
+          <button 
+            className="menu-button"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            ☰
+          </button>
+          <button className="btn btn-primary">Sign up</button>
+        </div>
       </header>
 
       <main>
         <div className="hero-content">
           <h1>Market Analytics Simplified</h1>
-          <p>Monitor market trends and analyze financial data with our intuitive dashboard</p>
+          <p>Monitor market trends and analyze financial <br />data with our intuitive dashboard</p>
           <button className="btn btn-primary">Login</button>
           <button className="btn btn-secondary">Learn More</button>
         </div>
@@ -27,22 +38,20 @@ export default function PageHome() {
           <div className="chart">
             <div className="chart-title">
               <span>Market Trend</span>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3 3V21H21" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M3 15L9 9L13 13L21 5" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              <img src='../images/Graphs and a piggy bank.png' alt="" className='imagess' />
             </div>
-            <div className="chart-placeholder"></div>
           </div>
           <div className="chart">
             <div className="chart-title">
               <span>Volume</span>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3 3V21H21" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M3 15L9 9L13 13L21 5" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              <img src='../images/interactive graphs for financial analysis.png' alt="" className='imagess' />
             </div>
-            <div className="chart-placeholder"></div>
+          </div>
+          <div className="chart">
+            <div className="chart-title">
+              <span>Volume</span>
+              <img src='../images/Сrypto analytics on computer monitor.png' alt="" className='imagess' />
+            </div>
           </div>
         </div>
       </main>
