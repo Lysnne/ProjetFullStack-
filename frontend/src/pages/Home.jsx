@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import '../css/styles.css'
+import '../styles/styles.css'
 
-export default function PageHome() {
+import Footer from '../components/Footer'
+
+export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -12,7 +14,7 @@ export default function PageHome() {
         </div>
         <nav className={`items ${isMenuOpen ? 'active' : ''}`}>
           <a href="/" className='itemsdans'>Home</a>
-          <a href="/markets" className='itemsdans'>Markets</a>
+          <a href="/market" className='itemsdans'>Markets</a>
           <a href="/about" className='itemsdans'>About us</a>
           <a href="/support" className='itemsdans'>Support</a>
         </nav>
@@ -23,6 +25,7 @@ export default function PageHome() {
           >
             ☰
           </button>
+          <button className="btn btn-primary">Login</button>
           <button className="btn btn-primary">Sign up</button>
         </div>
       </header>
@@ -56,15 +59,8 @@ export default function PageHome() {
         </div>
       </main>
 
-      <footer>
-        <div className="partners">
-          <span className="partner">AlphaWave</span>
-          <span className="partner">FusionX</span>
-          <span className="partner">OptiCore</span>
-          <span className="partner">MaxiWave</span>
-          <span className="partner">StellarCore</span>
-        </div>
-      </footer>
+      <Footer />
+
     </div>
   );
 }
