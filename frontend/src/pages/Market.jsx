@@ -23,7 +23,7 @@ function Market() {
 
 
     const loadStock = async () => {
-        const result = await axios.get(`http://localhost:8585/stock/getstock/1`);
+        const result = await axios.get(`http://localhost:8585/stock/getstock/5`);
         console.log("Data received:", result.data)
         setStock(result.data);
     };
