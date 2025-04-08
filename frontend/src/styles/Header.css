@@ -1,0 +1,18 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: transparent;
+    height: 70px;
+    padding: 0 5%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background-color: #BC6C25;
+    color: white;
+}

@@ -1,9 +1,9 @@
 import 'react';
-import '../styles/Home.css'
+import '../styles/Navbar.css'
 
 function Navbar() {
     return (
-        <nav>
+        <nav className='d-flex align-items-center gap-3'>
           <a href="/" className='itemsdans btn btn-secondary'>Home</a>
           <a href="/market" className='itemsdans  btn btn-secondary' >Markets</a>
           <a href="/about" className='itemsdans  btn btn-secondary'>About us</a>

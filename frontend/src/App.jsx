@@ -12,7 +12,7 @@ import Footer from './components/Footer'
 function App() {
 
   return (
-      <div>
+      <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
         <Header />
         <Router />
         <Footer />
