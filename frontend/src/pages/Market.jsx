@@ -17,15 +17,18 @@ function Market() {
         marketcap: ""
     });
 
+    const [stocks, setStocks] = useState([])
+
+
     useEffect(() => {
         loadStock();
     }, []);
 
 
     const loadStock = async () => {
-        const result = await axios.get(`http://localhost:8585/stock/getstock/4`);
+        const result = await axios.get(`http://localhost:8585/stock/getAllStocks`);
         console.log("Data received:", result.data)
-        setStock(result.data);
+        setStocks(...stocks, result.data);
     };
 
 
@@ -39,10 +42,10 @@ function Market() {
                 <button className="btn btn-primary">Gainers</button>
                 <button className="btn btn-primary">Losers</button>
                 <button className="btn btn-primary">New</button>
-                <button className="btn btn-primary">Favorites</button>
+
             </div>
 
-            <div className="card w-100 mb-2" key={stock.id}>
+            <div className="card w-100 mb-2" >
                 <div className="card-body">
                     <div className="row fw-bold text-uppercase border-bottom pb-2">
                         <div className="col-1">#</div>

@@ -1,10 +1,9 @@
-import 'react';
+import React from 'react';
 
-function Learn() {
+function InfoSupport() {
     return (
         <div>
-             <main>
-                <div className="info-content">
+            <div className="info-content">
                     <h1 className='title2'>Guide Finance pour Débutants</h1>
                     
                     <div className="info-grid">
@@ -42,9 +41,8 @@ function Learn() {
                         </div>
                     </div>
                 </div>
-            </main>
         </div>
     );
 }
 
-export default Learn;
+export default InfoSupport;

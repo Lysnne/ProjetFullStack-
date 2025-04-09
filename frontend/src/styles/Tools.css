@@ -1,0 +1,38 @@
+.tax-calculator-title {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.tax-calculator-description {
+    color: #6c757d;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.tax-calculator {
+    margin-top: 2rem;
+}
+
+.tax-form {
+    padding-right: 1rem;
+}
+
+.tax-result {
+    padding-left: 1rem;
+}
+
+.tax-result-content {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.05);
+}
+
+.tax-result-content h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+  
