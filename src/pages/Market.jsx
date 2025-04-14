@@ -7,17 +7,6 @@ const API_URL = import.meta.env.VITE_API_URL || ""
 
 function Market() {
 
-    const { id } = useParams();
-
-    const [stock, setStock] = useState({
-        symbol: "",
-        name: "",
-        price: "",
-        sector: "",
-        volume: "",
-        marketcap: ""
-    });
-
     const [stocks, setStocks] = useState([])
 
 
@@ -27,9 +16,9 @@ function Market() {
 
 
     const loadStock = async () => {
-        const result = await axios.get(`${API_URL}/stock/1`)
+        const result = await axios.get(`${API_URL}/stock/getAllStocks`)
         console.log("Data received:", result.data)
-        setStocks(stock, result.data);
+        setStocks(result.data);
     };
 
 
@@ -57,14 +46,16 @@ function Market() {
                         <div className="col-2">Market Cap</div>
                     </div>
 
-                    <div className="row pt-2">
-                        <div className="col-1">{stock.id}</div>
-                        <div className="col-3">{stock.name}</div>
-                        <div className="col-2">{stock.symbol}</div>
-                        <div className="col-2">{stock.price}</div>
-                        <div className="col-2">{stock.volume}</div>
-                        <div className="col-2">{stock.marketcap}</div>
-                    </div>
+                    {stocks.map((stock, index) => (
+                        <div key={stock.symbol} className="row py-2 border-bottom align-items-center">
+                            <div className="col-1">{index + 1}</div>
+                            <div className="col-3">{stock.name}</div>
+                            <div className="col-2">{stock.symbol}</div>
+                            <div className="col-2">${stock.price}</div>
+                            <div className="col-2">{stock.sector}</div>
+                            <div className="col-2">{stock.marketcap}</div>
+                        </div>
+                    ))}
                 </div>
             </div>
 

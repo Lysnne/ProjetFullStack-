@@ -10,15 +10,17 @@ import Footer from './components/Footer'
 
 
 function App() {
-
   return (
-      <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
-        <Header />
+    <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
+      <Header />
+      <div style={{ marginTop: '80px', flex: 1 }}>
         <Router />
-        <Footer />
       </div>
-
+      <Footer style={{ marginTop: 'auto' }} />
+    </div>
   );
 }
+
+
 
 export default App;
