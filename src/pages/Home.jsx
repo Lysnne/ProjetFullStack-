@@ -5,9 +5,9 @@ import '../styles/Home.css'
 export default function Home() {
 
   const cards = [
-    { title: "Trade with trust and assurance", img: "../images/Graphs and a piggy bank.png", alt: "Market Trend" },
-    { title: "Create your own personal portfolio", img: "../images/interactive graphs for financial analysis.png", alt: "Volume" },
-    { title: "Earn money through smart investments", img: "../images/Сrypto analytics on computer monitor.png", alt: "Volume 2" }
+    { title: "Trade with trust and assurance", img: "../images/Graphs and a piggy bank.png", alt: "card1" },
+    { title: "Create your own personal portfolio", img: "../images/interactive graphs for financial analysis.png", alt: "card 2" },
+    { title: "Earn money through smart investments", img: "../images/Сrypto analytics on computer monitor.png", alt: "card 3" }
   ];
 
   return (
