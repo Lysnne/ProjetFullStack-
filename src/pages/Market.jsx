@@ -1,7 +1,7 @@
 import 'react';
 import axios from 'axios';
 import { useEffect, useState } from "react";
-import {Link, useParams } from "react-router-dom";
+
 
 const API_URL = import.meta.env.VITE_API_URL || ""
 
@@ -24,7 +24,7 @@ function Market() {
             setStocks(result.data);
         }
         catch (error) {
-            console.error("Eror loading the stocks:", error)
+            console.error("Eror loading stocks:", error)
         }
     };
 

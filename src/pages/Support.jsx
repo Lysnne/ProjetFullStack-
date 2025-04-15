@@ -7,7 +7,7 @@ function Support() {
     return (
         <div>
             
-            <div className="hero-content">
+            <div className="hero-content text-center">
                 <h1>Support Center</h1>
                 <p>How can we help you today?</p>
 

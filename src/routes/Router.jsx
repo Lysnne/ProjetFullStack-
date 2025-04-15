@@ -9,6 +9,7 @@ import Support from '../pages/Support'
 import NotFound from '../pages/errors/NotFound'
 import Learn from '../pages/Learn'
 import InfoSupport from '../pages/InfoSupport';
+import Achat from '../pages/Achat';
 
 const Router = () => {
   return (
@@ -21,6 +22,7 @@ const Router = () => {
         <Route path="/tools" element={<Tools />} />
         <Route path="/support" element={<Support />} />
         <Route path="/infoSupport" element={<InfoSupport />} />
+        <Route path="/achat" element={<Achat />} />
         <Route path="/learn" element={<Learn />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
