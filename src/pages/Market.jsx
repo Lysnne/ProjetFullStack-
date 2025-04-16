@@ -57,7 +57,7 @@ function Market() {
                     </div>
 
                     {stocks.map((stock, index) => (
-                        <div key={stock.symbol} className="row py-2 border-bottom align-items-center">
+                        <div key={index} className="row py-2 border-bottom align-items-center">
                             <div className="col-1">{index + 1}</div>
                             <div className="col-2">{stock.name}</div>
                             <div className="col-1">{stock.symbol}</div>

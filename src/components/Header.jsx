@@ -11,7 +11,6 @@ function Header() {
             <Navbar />
             <div className="header-right d-flex gap-3">
                 <button className="btn btn-primary">Login</button>
-                <button className="btn btn-primary">Sign up</button>
             </div>
         </header>
     );
