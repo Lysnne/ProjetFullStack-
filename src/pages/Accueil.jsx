@@ -3,7 +3,7 @@ import '../styles/Home.css'
 import { Link } from 'react-router-dom';
 
 
-export default function Home() {
+export default function Accueil() {
 
   const cards = [
     { title: "Trade with trust and assurance", img: "../images/Graphs and a piggy bank.png", alt: "card1" },
@@ -20,9 +20,9 @@ export default function Home() {
           data with our intuitive dashboard
         </p>
         <div className="d-flex justify-content-center gap-3 mt-4">
-        <Link to="/Login">
+        
           <button className="btn btn-primary">Login</button>
-          </Link>
+          
           <button className="btn btn-outline-secondary">Learn More</button>
         </div>
       </div>
