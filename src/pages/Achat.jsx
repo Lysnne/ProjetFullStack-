@@ -7,15 +7,20 @@ const API_URL = import.meta.env.VITE_API_URL || ""
 
 function Achat() {
     const [stocks, setStocks] = useState([])
-
     const [panier, setPanier] = useState([])
-
     const { counter, increase, decrement, reset } = useCounter()
+
+    
 
     const ajouterPanier = (stock) => {
         console.log(stock)
-        setPanier([...stocks])
-        console.log("Panier" + panier)
+        setPanier(
+            [
+                ...panier,
+                stock
+            ]
+        )
+        console.log(panier)
     }
 
     useEffect(() => {
@@ -32,7 +37,7 @@ function Achat() {
             setStocks(result.data);
         }
         catch (error) {
-            console.error("Eror loading stocks:", error)
+            console.log("Eror loading stocks:", error)
         }
     };
 
@@ -64,14 +69,17 @@ function Achat() {
                 <div className='container'>
                     <div className='card '>
                         <div className='card-body gap-1'>
-                            <div className='d-flex gap-2'>
-                                <button onClick={increase} className='h6 text-white'>+</button>
-                                <p className='m-2'>{counter}</p>
-                                <button onClick={decrement} className='h6 text-white'>-</button>
-                            </div>
+                            {panier.map((p, index) => (
+                                <div className='d-flex gap-2'>
+                                    <p>{p.name}</p>
+                                    <button onClick={increase} className='h6 text-white'>+</button>
+                                    <p className='m-2'>{counter}</p>
+                                    <button onClick={decrement} className='h6 text-white'>-</button>
+                                </div>
+                            ))}
 
                             <div className='d-flex gap-4'>
-                                <button className='btn-primary btn-sm h5'>Buy</button>
+                                <button className='btn-primary btn-sm h5' onClick={() => console.log(panier)}>Buy</button>
                                 <button className='btn-secondary btn-sm h5'>Sell</button>
                             </div>
                         </div>
