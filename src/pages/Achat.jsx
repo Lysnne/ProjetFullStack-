@@ -1,8 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from "react";
-import useCounter from "../hooks/useCounter"
-import { ChartNoAxesColumnIcon } from 'lucide-react';
+import Panier from './Panier';
+
 
 const API_URL = import.meta.env.VITE_API_URL || ""
 
@@ -10,30 +10,30 @@ function Achat() {
     const [stocks, setStocks] = useState([])
     const [panier, setPanier] = useState([])
     const [total, setTotal] = useState(0)
-    const { counter, increase, decrement, reset } = useCounter()
-
 
 
     const ajouterPanier = (stock) => {
         console.log(stock)
-        if(!panier.includes(stock)){
+        if (!panier.includes(stock)) {
             setPanier(
                 [
                     ...panier,
                     stock
                 ]
             )
-            console.log(panier) 
+            console.log(panier)
         }
-       else{
-        console.log("LE STOCK SE RETROUVE DEJA EN LE PANIER")
-       }
+        else {
+            console.log("LE STOCK SE RETROUVE DEJA EN LE PANIER")
+        }
     }
 
-    const addition = (price) => {
-        const sum = total + price
-        setTotal(sum)
-    }
+    const updatePanier = (price, stock) => {
+        if (!panier.includes(stock)){
+            const sum = total + price
+            setTotal(Math.round(sum * 100) / 100)
+            }
+        }
 
 
     useEffect(() => {
@@ -43,7 +43,6 @@ function Achat() {
 
     const loadStock = async () => {
         try {
-
             const url = `${API_URL}/stock/getAllStocks`
             const result = await axios.get(url)
             console.log("Data received:", result.data)
@@ -70,10 +69,9 @@ function Achat() {
                                         <h5 className="card-title">{stock.price}</h5>
                                         <p className="card-text">{stock.sector}</p>
                                         <button onClick={() => {
-                                        ajouterPanier(stock);
-                                        addition(stock.price)
+                                            ajouterPanier(stock);
+                                            updatePanier(stock.price, stock)
                                         }
-                                            
                                         }>Add</button>
                                     </div>
                                 </div>
@@ -87,17 +85,9 @@ function Achat() {
                 <div className='container .d-none px-10'>
                     <div className='card col-5'>
                         <div className='card-body gap-1'>
-                        <h2 className='text-center'>Balance: </h2>
-                            {panier.map((p, index) => (
-                                <div className='d-flex gap-2'>
-                                    <p>{p.name}</p>
-                                    <p>{p.price}</p>
-                                    <div className='d-flex'>
-                                        <button onClick={increase} className='h6 text-white'>+</button>
-                                        <p className='m-2'>{counter}</p>
-                                        <button onClick={decrement} className='h6 text-white'>-</button>
-                                    </div>
-                                </div>
+                            <h2 className='text-center'>Balance: </h2>
+                            {panier.map((panier, index) => (
+                                <Panier key={index} stock={panier} total={total} />
                             ))}
                             <p className='h2 m-2'>Total: {total}</p>
                             <div className='d-flex gap-4'>
