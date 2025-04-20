@@ -1,4 +1,4 @@
-import { useState} from 'react';
+import { useState } from 'react';
 import '../styles/Tools.css';
 // import { calculerResultats } from '../composante/calculTaxes';
 
@@ -44,63 +44,63 @@ function Tools() {
 
                             {champs.map((champ) => {
                                 let value = '';
-                                let setValue = () => {};
+                                let setValue = () => { };
 
                                 switch (champ.state) {
-                                case 'employmentIncome':
-                                    value = employmentIncome;
-                                    setValue = setEmploymentIncome;
-                                    break;
-                                case 'selfEmploymentIncome':
-                                    value = selfEmploymentIncome;
-                                    setValue = setSelfEmploymentIncome;
-                                    break;
-                                case 'RRSPandFHSADeductions':
-                                    value = RRSPandFHSADeductions;
-                                    setValue = setRRSPandFHSADeductions;
-                                    break;
-                                case 'gainCapitalBefore':
-                                    value = gainCapitalBefore;
-                                    setValue = setGainCapitalBefore;
-                                    break;
-                                case 'gainCapitalAfter':
-                                    value = gainCapitalAfter;
-                                    setValue = setGainCapitalAfter;
-                                    break;
-                                case 'eligibleDividends':
-                                    value = eligibleDividends;
-                                    setValue = setEligibleDividends;
-                                    break;
-                                case 'ineligibleDividends':
-                                    value = ineligibleDividends;
-                                    setValue = setIneligibleDividends;
-                                    break;
-                                case 'otherIncome':
-                                    value = otherIncome;
-                                    setValue = setOtherIncome;
-                                    break;
-                                case 'incomeTaxesPaid':
-                                    value = incomeTaxesPaid;
-                                    setValue = setIncomeTaxesPaid;
-                                    break;
-                                default:
-                                    break;
+                                    case 'employmentIncome':
+                                        value = employmentIncome;
+                                        setValue = setEmploymentIncome;
+                                        break;
+                                    case 'selfEmploymentIncome':
+                                        value = selfEmploymentIncome;
+                                        setValue = setSelfEmploymentIncome;
+                                        break;
+                                    case 'RRSPandFHSADeductions':
+                                        value = RRSPandFHSADeductions;
+                                        setValue = setRRSPandFHSADeductions;
+                                        break;
+                                    case 'gainCapitalBefore':
+                                        value = gainCapitalBefore;
+                                        setValue = setGainCapitalBefore;
+                                        break;
+                                    case 'gainCapitalAfter':
+                                        value = gainCapitalAfter;
+                                        setValue = setGainCapitalAfter;
+                                        break;
+                                    case 'eligibleDividends':
+                                        value = eligibleDividends;
+                                        setValue = setEligibleDividends;
+                                        break;
+                                    case 'ineligibleDividends':
+                                        value = ineligibleDividends;
+                                        setValue = setIneligibleDividends;
+                                        break;
+                                    case 'otherIncome':
+                                        value = otherIncome;
+                                        setValue = setOtherIncome;
+                                        break;
+                                    case 'incomeTaxesPaid':
+                                        value = incomeTaxesPaid;
+                                        setValue = setIncomeTaxesPaid;
+                                        break;
+                                    default:
+                                        break;
                                 }
 
                                 return (
-                                <div className="mb-3" key={champ.id}>
-                                    <label htmlFor={champ.id} className="form-label">{champ.label}</label>
-                                    <input
-                                    type="number"
-                                    className="form-control"
-                                    id={champ.id}
-                                    value={value}
-                                    onChange={(e) => setValue(e.target.value)}
-                                    placeholder="0 $"
-                                    />
-                                </div>
-                                    );
-                                })}
+                                    <div className="mb-3" key={champ.id}>
+                                        <label htmlFor={champ.id} className="form-label">{champ.label}</label>
+                                        <input
+                                            type="number"
+                                            className="form-control"
+                                            id={champ.id}
+                                            value={value}
+                                            onChange={(e) => setValue(e.target.value)}
+                                            placeholder="0 $"
+                                        />
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
 
@@ -108,7 +108,7 @@ function Tools() {
                         <div className="tax-result-content">
                             <h4>Vos rsultat</h4>
                             <p><strong>Revenu total:</strong> {employmentIncome || '0'} $</p>
-                            
+
                         </div>
                     </div>
                 </div>

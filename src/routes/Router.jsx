@@ -8,8 +8,9 @@ import Tools from '../pages/Tools'
 import Support from '../pages/Support'
 import NotFound from '../pages/errors/NotFound'
 import Learn from '../pages/Learn'
-import InfoSupport from '../pages/InfoSupport';
-import Achat from '../pages/Achat';
+import InfoSupport from '../components/InfoSupport'
+import Trade from '../pages/Trade'
+import Portfolio from '../pages/Portfolio';
 
 const Router = () => {
   return (
@@ -22,7 +23,8 @@ const Router = () => {
         <Route path="/tools" element={<Tools />} />
         <Route path="/support" element={<Support />} />
         <Route path="/infoSupport" element={<InfoSupport />} />
-        <Route path="/achat" element={<Achat />} />
+        <Route path="/trade" element={<Trade />} />
+        <Route path="/Portfolio" element={<Portfolio />} />
         <Route path="/learn" element={<Learn />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
