@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/Header.css'
-
+import '../styles/Login.css'
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
@@ -15,11 +14,13 @@ const Login =({setAuth}) => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+     
         try {
             const response = await axios.post(`http://localhost:8585/customer/signin/${user.username}/${user.password}`,);
             if (response.data) {
+                localStorage.setItem("loggedUser", JSON.stringify(response.data));
                 setAuth(true);
-                navigate("/");
+                navigate("/profile");
             } else {
                 setError(true);
             }
@@ -30,22 +31,43 @@ const Login =({setAuth}) => {
     };
 
     return (
-
-       
-        <div>
-
-       
-            <h2>Login</h2>
-            <form onSubmit={handleLogin}>
-                <input type="text" name="username" placeholder="Username" onChange={handleChange}/>
-                <input type="password" name="password" placeholder="Password" onChange={handleChange}/>
-                <button id="login-button" type="submit">Login</button>
-            </form>
-            {error && <p style={{color: "red"}}>Invalid credentials</p>}
-          
-
+        <div className='login-container'>
+            <div className='login-form-section'>
+                <div className='login-form-wrapper'>
+                    <h2>Bon retour</h2>
+                    <form onSubmit={handleLogin}>
+                        <div className='form-group'>
+                            <input 
+                                type="text" 
+                                name="username" 
+                                placeholder="username" 
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className='form-group'>
+                            <input 
+                                type="password" 
+                                name="password" 
+                                placeholder="Mot de passe" 
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className='form-group'>
+                            <button id="login-button" type="submit">S'identifier</button>
+                        </div>
+                        <div className='form-links'>
+                            
+                         
+                        </div>
+                        {error && <p className="error-message">Invalid credentials</p>}
+                    </form>
+                </div>
+            </div>
+            <div className='login-image-section'>
+                <img src='../images/chair and laptop with statistic chart (1).png' alt="Login illustration"/>
+            </div>
         </div>
     );
-    
-} ;
+};
+
 export default Login;

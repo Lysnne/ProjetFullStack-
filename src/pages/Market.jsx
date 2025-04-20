@@ -1,5 +1,6 @@
 import 'react';
 import axios from 'axios';
+import '../styles/Market.css'
 import { useEffect, useState } from "react";
 
 
@@ -45,7 +46,7 @@ function Market() {
             </div>
 
             <div className="card w-100 mb-2" >
-                <div className="card-body">
+                <div className="card-body card">
                     <div className="row fw-bold text-uppercase border-bottom pb-2">
                         <div className="col-1">#</div>
                         <div className="col-2">Name</div>
