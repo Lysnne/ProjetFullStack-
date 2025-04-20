@@ -4,13 +4,15 @@ import Cart from '../components/Cart';
 
 import useCart from "../hooks/useCart";
 import useAxios from "../hooks/useAxios";
+import useCounter from "../hooks/useCounter";
 
 function Trade() {
     const [totalAfterFee, setTotalAfterFee] = useState(0);
     const [commision, setCommision] = useState(0)
 
-    const { cart, addToCart, removeToCart, sumTotal, subtractTotal, total, setTotal, incrementPrice, decrementPrice, quantity} = useCart();
+    const { cart, addToCart, removeToCart, sumTotal, subtractTotal, total, setTotal, incrementPrice, decrementPrice, quantity } = useCart();
     const { loadCustomer, loadStock, submitNewTransaction, stocks, customer, transaction, setTransaction } = useAxios();
+    const { counter, increase, decrement } = useCounter()
 
     useEffect(() => {
         loadStock();
@@ -23,9 +25,6 @@ function Trade() {
     useEffect(() => {
         transactionFee(total);
     }, [total]);
-
-
-
 
     const transactionFee = (total) => {
         let commisionRate = 0
@@ -54,17 +53,33 @@ function Trade() {
     }
 
     const Buy = () => {
-        cart.map((item) => {
-            const newTransaction = {
-                stock_id_stock: item.id_stock,
-                shares: item.counter,
-                price_per_share: item.price,
-                transaction_fee: commision,
-                net_amount: totalAfterFee,
-                order_type: "Buy",
-            };
-            console.log(newTransaction)
-        });
+        if (customer.balance >= total) {
+            cart.map((item) => {
+                const newTransaction = {
+                    id_stock: item.id_stock,
+                    shares: quantity,
+                    price_per_share: item.price,
+                    transaction_fee: commision,
+                    net_amount: totalAfterFee,
+                    order_type: "Buy",
+                }
+                setTransaction(newTransaction)
+
+                if (counter == 2) {
+                    submitNewTransaction(transaction)
+                }
+
+                console.log(transaction)
+
+            });
+
+            increase()
+
+        }
+        else{
+            alert("You need more money!")
+        }
+
     };
 
 

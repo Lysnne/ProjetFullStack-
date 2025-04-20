@@ -8,7 +8,7 @@ const useCart = () => {
 
      // Ajouter un stock au panier
      const addToCart = (stock) => {
-        if (!cart.includes(stock)) {
+        if (!cart.includes(stock) && cart.length < 1) {
             setCart(
                 [
                     ...cart,
@@ -20,7 +20,7 @@ const useCart = () => {
             console.log(cart)
         }
         else {
-            alert("This stock is already in your cart")
+            alert("Hey hey! Just one stock at a time, please!")
         }
 
     }
