@@ -11,7 +11,7 @@ function Trade() {
     const [commision, setCommision] = useState(0)
 
     const { cart, addToCart, removeToCart, sumTotal, subtractTotal, total, setTotal, incrementPrice, decrementPrice, quantity } = useCart();
-    const { loadCustomer, loadStock, submitNewTransaction, stocks, customer, transaction, setTransaction } = useAxios();
+    const { loadCustomer, loadStock, submitNewTransaction, stocks, customer, transaction, setTransaction, idstock } = useAxios();
     const { counter, increase, decrement } = useCounter()
 
     useEffect(() => {
@@ -54,20 +54,25 @@ function Trade() {
 
     const Buy = () => {
         if (customer.balance >= total) {
-            cart.map((item) => {
+            cart.map((stock) => {
+                console.log(stock)
+                console.log(stock.idstock)
+                
                 const newTransaction = {
-                    id_stock: item.id_stock,
+                    //idstock: item.idstock,
                     shares: quantity,
-                    price_per_share: item.price,
+                    price_per_share: stock.price,
                     transaction_fee: commision,
                     net_amount: totalAfterFee,
-                    order_type: "Buy",
+                    order_type: "BUY",
                 }
                 setTransaction(newTransaction)
 
-                if (counter == 2) {
-                    submitNewTransaction(transaction)
+                if(counter > 2){
+                  submitNewTransaction(transaction, stock.idstock)  
                 }
+                
+                
 
                 console.log(transaction)
 

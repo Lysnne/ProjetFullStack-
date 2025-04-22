@@ -19,7 +19,7 @@ const useAxios = () => {
     });
 
     const [transaction, setTransaction] = useState({
-        stock_id_stock: "",
+       // idstock: "",
         shares: "",
         price_per_share: "",
         transaction_fee: "",
@@ -29,19 +29,22 @@ const useAxios = () => {
         transaction_status: ""
     });
 
+    const [idstock, setIdStock] = useState("")
+
     const navigate = useNavigate();
 
     // GET
 
-    const loadStock = async () => {
+    const loadStock = async (model, request, usestate) => {
         try {
-            const url = `${API_URL}/stock/getAllStocks`
+            const url = `${API_URL}/${model}/${request}`
             const result = await axios.get(url)
             console.log("Data received:", result.data)
-            setStocks(result.data);
+            const state = "set" + usestate
+            set(result.data);
         }
         catch (error) {
-            console.log("Error loading stocks:", error)
+            console.log("Error loading Data:", error)
         }
     };
 
@@ -58,14 +61,18 @@ const useAxios = () => {
     };
 
     // CREATE 
-    const submitNewTransaction = () => {
-        const url = `${API_URL}/transaction/createTransaction`
-        axios.post(url, transaction)
+    const submitNewTransaction = (tran, id) => {
+        const url = `${API_URL}/transaction/createTransaction/${id}`
+        console.log(url)
+        axios.post(url, tran)
             .then(() => {
                 navigate("/")
             }).catch((error) => {
                 console.log(error);
             });
+
+            
+        
     }
 
     return {
@@ -75,7 +82,8 @@ const useAxios = () => {
         setTransaction,
         loadCustomer,
         loadStock,
-        submitNewTransaction
+        submitNewTransaction,
+        idstock
     };
     
 };
