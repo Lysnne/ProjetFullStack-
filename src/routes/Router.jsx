@@ -24,6 +24,7 @@ const Router = () => {
         <Route path="/infoSupport" element={<InfoSupport />} />
         <Route path="/achat" element={<Achat />} />
         <Route path="/learn" element={<Learn />} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
