@@ -1,5 +1,5 @@
 import 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import {  Routes, Route } from 'react-router-dom'
 
 import Home from '../pages/Home'
 import AboutUs from '../pages/About'
@@ -8,13 +8,14 @@ import Tools from '../pages/Tools'
 import Support from '../pages/Support'
 import NotFound from '../pages/errors/NotFound'
 import Learn from '../pages/Learn'
-import InfoSupport from '../components/InfoSupport'
-import Trade from '../pages/Trade'
-import Portfolio from '../pages/Portfolio';
+import Login from '../pages/Login';
+import InfoSupport from '../pages/InfoSupport';
+import Trade from '../pages/Trade';
+import Profile from '../pages/Profile';
 
-const Router = () => {
+const Router = ({ auth, setAuth }) => {
   return (
-    <BrowserRouter>
+    
       <Routes>
         <Route index element={<Home />} />
         <Route path="/" element={<Home />} />
@@ -26,9 +27,11 @@ const Router = () => {
         <Route path="/trade" element={<Trade />} />
         <Route path="/Portfolio" element={<Portfolio />} />
         <Route path="/learn" element={<Learn />} />
+        <Route path="/login" element={<Login setAuth={setAuth} />} />
+        <Route path="/profile" element={<Profile auth={auth} setAuth={setAuth} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </BrowserRouter>
+    
   );
 };
 

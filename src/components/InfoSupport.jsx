@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/InfoSupport.css'
 
 function InfoSupport() {
     return (
