@@ -5,42 +5,15 @@ import { useNavigate } from "react-router-dom";
 const API_URL = import.meta.env.VITE_API_URL || ""
 
 const useAxios = () => {
-    const [stocks, setStocks] = useState([])
-
-    const [customer, setCustomer] = useState({
-        first_name: "",
-        last_name: "",
-        date_of_birth: "",
-        email: "",
-        phone: "",
-        username: "",
-        password: "",
-        balance: ""
-    });
-
-    const [transaction, setTransaction] = useState({
-       // idstock: "",
-        shares: "",
-        price_per_share: "",
-        transaction_fee: "",
-        net_amount: "",
-        order_type: "",
-        transaction_date: "",
-        transaction_status: ""
-    });
-
-    const [idstock, setIdStock] = useState("")
-
     const navigate = useNavigate();
 
-    // GET
-
-    const loadStock = async (model, request, usestate) => {
+    //// GET
+    const loadData = async (model, request, set) => {
         try {
             const url = `${API_URL}/${model}/${request}`
+            console.log(url)
             const result = await axios.get(url)
             console.log("Data received:", result.data)
-            const state = "set" + usestate
             set(result.data);
         }
         catch (error) {
@@ -48,42 +21,68 @@ const useAxios = () => {
         }
     };
 
-    const loadCustomer = async (id) => {
+    const loadDataWithPathVariable = async (model, request, set, pathvariable) => {
         try {
-            const url = `${API_URL}/customer/getCustomer/${id}`
+            const url = `${API_URL}/${model}/${request}/${pathvariable}`
+            console.log(url)
             const result = await axios.get(url)
             console.log("Data received:", result.data)
-            setCustomer(result.data)
+            set(result.data)
         }
         catch (error) {
-            console.error("Eror loading customer info:", error)
+            console.error("Eror loading Data:", error)
         }
     };
 
-    // CREATE 
-    const submitNewTransaction = (tran, id) => {
-        const url = `${API_URL}/transaction/createTransaction/${id}`
+    //// CREATE 
+    const submitNewData = (model, request, object, id) => {
+        const url = `${API_URL}/${model}/${request}/${id}`
         console.log(url)
-        axios.post(url, tran)
+        axios.post(url, object)
             .then(() => {
                 navigate("/")
-            }).catch((error) => {
-                console.log(error);
+            })
+            .catch((error) => {
+                console.log("Error sending Data", error)
             });
-
-            
         
     }
 
+
+    //// DELETE
+
+    const deleteData = async (model, request, id) => {
+        try{
+            const url = `${API_URL}/${model}/${request}/${id}`
+            await axios.delete(url);
+            console.log(url)
+        }
+        catch(error){
+            console.log("Error deleting Data", error)
+        }
+       
+    };
+
+
+    //// UPDATE
+    const updateData = async (model, request, id, object) => {
+        try{
+            const url = `${API_URL}/${model}/${request}/${id}`
+            console.log(url)
+            await axios.put(url, object);
+            navigate("/");
+        }
+        catch (error){
+            console.error("Error updating Data: ", error);
+        }
+     };
+
     return {
-        stocks,
-        customer,
-        transaction,
-        setTransaction,
-        loadCustomer,
-        loadStock,
-        submitNewTransaction,
-        idstock
+       loadData,
+       loadDataWithPathVariable,
+       submitNewData, 
+       deleteData,
+       updateData
     };
     
 };

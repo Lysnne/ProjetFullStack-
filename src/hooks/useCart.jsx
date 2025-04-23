@@ -42,15 +42,14 @@ const useCart = () => {
     // Mettre a jour le total
     const sumTotal = (stock) => {
         console.log(cart)
-        if (!cart.includes(stock)) {
+        if (!cart.includes(stock) && cart.length < 1) {
             const sum = total + stock.price
             setTotal(Math.round(sum * 100) / 100)
         }
     }
 
     const subtractTotal = (stock) => {
-        if (cart.length > 0) {
-            console.log("test")
+        if (cart.length > 0 && cart.includes(stock)) {
             const minus = total - stock.price
             setTotal(Math.round(minus * 100) / 100)
         }
@@ -63,6 +62,7 @@ const useCart = () => {
     }
 
     const decrementPrice = (price) => {
+        
         setTotal(PrevTotal => Math.round((PrevTotal - price) * 100) / 100)
         setQuantity(prevQuantity => prevQuantity - 1);
     }
