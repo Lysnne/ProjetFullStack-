@@ -1,0 +1,204 @@
+
+import { useEffect, useState } from "react";
+import Cart from '../components/Cart';
+
+import useCart from "../hooks/useCart";
+import useAxios from "../hooks/useAxios";
+import useCounter from "../hooks/useCounter";
+
+function Trade() {
+    const [totalAfterFee, setTotalAfterFee] = useState(0);
+    const [commision, setCommision] = useState(0)
+    const [stocks, setStocks] = useState([])
+    const [idstock, setIdStock] = useState("")
+    
+
+    // Custom Hooks
+    const { cart, addToCart, removeToCart, sumTotal, subtractTotal, total, setTotal, incrementPrice, decrementPrice, quantity } = useCart();
+    const { loadData, loadDataWithPathVariable, submitNewData, updateData } = useAxios();
+    const { counter, increase } = useCounter()
+    
+    const [balance, setBalance] = useState(0)
+
+    const [customer, setCustomer] = useState({
+        first_name: "",
+        last_name: "",
+        date_of_birth: "",
+        email: "",
+        phone: "",
+        username: "",
+        password: "",
+        balance: ""
+    });
+
+    const [transaction, setTransaction] = useState({
+        shares: "",
+        price_per_share: "",
+        transaction_fee: "",
+        net_amount: "",
+        order_type: "",
+        transaction_date: "",
+        transaction_status: ""
+    });
+
+    useEffect(() => {
+        loadDataWithPathVariable("customer", "getCustomer", setCustomer, 2)
+        loadData("stock", "getAllStocks", setStocks)
+
+        if (cart.length === 0) {
+            setTotal(0)
+        }
+    }, []);
+
+    useEffect(() => {
+        transactionFee(total);
+    }, [total]);
+
+    const transactionFee = (total) => {
+        let commisionRate = 0
+        if (total < 250) {
+            commisionRate = 2.5 / 100
+        }
+        else if (total < 1250) {
+            commisionRate = 7.5 / 100
+        }
+        else if (total < 2500) {
+            commisionRate = 12.5 / 100
+        }
+        else if (total < 5000) {
+            commisionRate = 25 / 100
+        }
+        else {
+            commisionRate = 50 / 100
+        }
+        setCommision(commisionRate)
+
+        const fee = total * commisionRate
+        const newTotal = total + fee
+
+        setTotalAfterFee(Math.round(newTotal * 100) / 100);
+    }
+
+    const Buy = () => {
+        if (customer.balance >= total) {
+            cart.map((stock) => {
+                const newTransaction = {
+                    shares: quantity,
+                    price_per_share: stock.price,
+                    transaction_fee: commision,
+                    net_amount: totalAfterFee,
+                    order_type: "BUY",
+                }
+                const newBalance = customer.balance - totalAfterFee
+
+                setBalance(customer.balance - totalAfterFee)
+                console.log(balance)
+                setTransaction(newTransaction)
+                if(counter > 1){
+                    alert("Thanks!")
+                    setCustomer({balance: newBalance})
+                    submitNewData("transaction", "createTransaction", transaction, stock.idstock)
+                    
+                    updateData("customer", "updateCustomer", 2, customer)
+                    console.log(customer)
+                }
+                //console.log(transaction)
+            });
+            increase()
+        }
+        else{
+            alert("You need more money!")
+        }
+    };
+
+    return (
+        <div>
+            <h1 className='text-center'>Buy or Sell stocks</h1>
+            <div className='d-flex'>
+                <div className="container ms-5">
+                    <div className='row justify-content-center'>
+                        {stocks.map((stock, index) => (
+                            <div key={index} className="col-4 m-2">
+                                <div className="card">
+                                    <div className="card-title p-1 h4">
+                                        {stock.name}
+                                    </div>
+                                    <div className="card-body">
+                                        <h5 className="card-title">{stock.price}</h5>
+                                        <p className="card-text">{stock.sector}</p>
+                                        <div className='d-flex '>
+                                            <button className='btn btn-primary btn-sm' onClick={() => {
+                                                addToCart(stock);
+                                                sumTotal(stock);
+                                            }
+                                            }>Add</button>
+
+                                            <button className='btn btn-secondary btn-sm' onClick={() => {
+                                                removeToCart(stock)
+                                                subtractTotal(stock)
+                                            }
+                                            }>Remove</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+
+
+                    </div>
+                </div>
+
+                <div className='container .d-none px-10'>
+                    {cart.length > 0 && (
+                        <div className='card col-5'>
+                            <div className='card-header'>
+                                <h2>Balance: ${customer.balance}</h2>
+                            </div>
+                            <div className='card'>
+                                <div className='card-body gap-1'>
+
+                                    {cart.map((cartItem, index) => (
+                                        <Cart key={index}
+                                            cartItem={cartItem}
+                                            incrementPrice={incrementPrice}
+                                            decrementPrice={decrementPrice}
+                                            removeToCart={removeToCart}
+                                        />
+                                    ))}
+
+
+
+                                </div>
+                                <div className='card-footer text-muted'>
+                                    <p className='h5 m-2'>Total: {total}</p>
+                                    <p className='h5 m-2'>Commision: {commision  * 100 + "%"}</p>
+                                    <p className='h5 m-2'>quantity of shares: {quantity}</p><br></br>
+                                    <p className='h3 m-2'>Total after fee: ${totalAfterFee.toFixed(2)}</p>
+
+
+                                    <div className=' gap-4'>
+                                        <button className='btn btn-primary btn-sm h5' onClick={() => {
+                                            Buy();
+                                        }
+                                        }>Buy</button>
+                                        <button className='btn btn-secondary btn-sm h5'>Sell</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    )}
+
+
+                </div>
+            </div>
+        </div >
+
+
+
+
+
+    );
+}
+
+export default Trade;

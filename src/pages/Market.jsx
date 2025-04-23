@@ -1,6 +1,9 @@
 import 'react';
 import axios from 'axios';
+import '../styles/Market.css'
 import { useEffect, useState } from "react";
+
+import useAxios from "../hooks/useAxios";
 
 
 const API_URL = import.meta.env.VITE_API_URL || ""
@@ -8,25 +11,14 @@ const API_URL = import.meta.env.VITE_API_URL || ""
 function Market() {
 
     const [stocks, setStocks] = useState([])
+    
+    const { loadData } = useAxios();
 
 
     useEffect(() => {
-        loadStock("AllStocks");
+        loadData("stock", "getAllStocks", setStocks)
     }, []);
 
-
-    const loadStock = async (dataType) => {
-        try {
-
-            const url = `${API_URL}/stock/get${dataType}`
-            const result = await axios.get(url)
-            console.log("Data received:", result.data)
-            setStocks(result.data);
-        }
-        catch (error) {
-            console.error("Eror loading stocks:", error)
-        }
-    };
 
 
 
@@ -36,16 +28,14 @@ function Market() {
 
             <h4>Sort By: </h4>
             <div className="d-flex gap-2 mb-3">
-
-                <button onClick={() => loadStock("AllStocksSortedByPrice")} className="btn btn-primary">Price</button> 
-                <button onClick={() => loadStock("AllStocksSortedByName")} className="btn btn-primary">Name</button>
-                <button onClick={() => loadStock("AllStocksSortedByVolume")} className="btn btn-primary">Volume</button>
-                <button onClick={() => loadStock("AllStocksSortedByMarketCap")} className="btn btn-primary">Market Cap</button>
-
-            </div>
+                <button onClick={() => loadData("stock", "getAllStocksSortedByPrice", setStocks)} className="btn btn-primary">Price</button> 
+                <button onClick={() => loadData("stock", "getAllStocksSortedByName", setStocks)} className="btn btn-primary">Name</button> 
+                <button onClick={() => loadData("stock", "getAllStocksSortedByVolume", setStocks)} className="btn btn-primary">Volume</button> 
+                <button onClick={() => loadData("stock", "getAllStocksSortedByMarketCap", setStocks)} className="btn btn-primary">Market Cap</button> 
+            </div> 
 
             <div className="card w-100 mb-2" >
-                <div className="card-body">
+                <div className="card-body card">
                     <div className="row fw-bold text-uppercase border-bottom pb-2">
                         <div className="col-1">#</div>
                         <div className="col-2">Name</div>
@@ -57,7 +47,7 @@ function Market() {
                     </div>
 
                     {stocks.map((stock, index) => (
-                        <div key={stock.symbol} className="row py-2 border-bottom align-items-center">
+                        <div key={index} className="row py-2 border-bottom align-items-center">
                             <div className="col-1">{index + 1}</div>
                             <div className="col-2">{stock.name}</div>
                             <div className="col-1">{stock.symbol}</div>

@@ -5,7 +5,7 @@ import '../styles/Support.css'
 
 function Support() {
     return (
-        <div>
+       
             
             <div className="hero-content text-center">
                 <h1>Support Center</h1>
@@ -41,7 +41,7 @@ function Support() {
                 </div>
             </div>
 
-        </div>
+        
     );
 }
 

@@ -1,4 +1,4 @@
-import { useState} from 'react';
+import { useState } from 'react';
 import '../styles/Tools.css';
 import axios from 'axios';
 
@@ -49,6 +49,7 @@ function Tools() {
     const calculer = async (e) => {
         e.preventDefault();
         try {
+            //DTO
             const response = await axios.post('http://localhost:8585/tax/taxCalculate', formData);
             setResult(response.data);
         } catch (error) {
