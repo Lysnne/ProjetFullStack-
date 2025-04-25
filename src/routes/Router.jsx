@@ -1,5 +1,5 @@
 import 'react';
-import {  Routes, Route } from 'react-router-dom'
+import {  Routes, Route, useLocation } from 'react-router-dom'
 
 import Home from '../pages/Home'
 import AboutUs from '../pages/About'
@@ -13,9 +13,17 @@ import InfoSupport from '../pages/InfoSupport';
 import Achat from '../pages/Achat';
 import Profile from '../pages/Profile';
 
+import Header from '../components/Header';
+
 const Router = ({ auth, setAuth }) => {
+
+
+   const location = useLocation();
+   const hideHeader = location.pathname === "/Login";
   return (
-    
+    <>
+
+    {!hideHeader && <Header />}
       <Routes>
         <Route index element={<Home />} />
         <Route path="/" element={<Home />} />
@@ -26,10 +34,13 @@ const Router = ({ auth, setAuth }) => {
         <Route path="/infoSupport" element={<InfoSupport />} />
         <Route path="/achat" element={<Achat />} />
         <Route path="/learn" element={<Learn />} />
+
         <Route path="/login" element={<Login setAuth={setAuth} />} />
+        
         <Route path="/profile" element={<Profile auth={auth} setAuth={setAuth} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </>
     
   );
 };

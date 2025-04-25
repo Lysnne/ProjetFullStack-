@@ -3,10 +3,12 @@ import '../styles/Login.css'
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
+
 const Login =({setAuth}) => {
     const [user , setUser] = useState({username: "", password:""});
     const [error, setError] = useState(false);
     const navigate = useNavigate();
+   
 
     const handleChange = (e) => {
         setUser({... user, [e.target.name]: e.target.value});
@@ -53,12 +55,10 @@ const Login =({setAuth}) => {
                             />
                         </div>
                         <div className='form-group'>
-                            <button id="login-button" type="submit">S'identifier</button>
+                      
+                            <button id="login-button" hideHeader  type="submit">S'identifier</button>
                         </div>
-                        <div className='form-links'>
-                            
-                         
-                        </div>
+                      
                         {error && <p className="error-message">Invalid credentials</p>}
                     </form>
                 </div>
