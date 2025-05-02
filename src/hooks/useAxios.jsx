@@ -39,9 +39,6 @@ const useAxios = () => {
         const url = `${API_URL}/${model}/${request}/${id}`
         console.log(url)
         axios.post(url, object)
-            .then(() => {
-                navigate("/")
-            })
             .catch((error) => {
                 console.log("Error sending Data", error)
             });
@@ -70,7 +67,7 @@ const useAxios = () => {
             const url = `${API_URL}/${model}/${request}/${id}`
             console.log(url)
             await axios.put(url, object);
-            navigate("/");
+            // navigate("/");
         }
         catch (error){
             console.error("Error updating Data: ", error);

@@ -1,24 +1,26 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Cart from '../components/Cart';
 
 import useCart from "../hooks/useCart";
 import useAxios from "../hooks/useAxios";
 import useCounter from "../hooks/useCounter";
 
+
 function Trade() {
     const [totalAfterFee, setTotalAfterFee] = useState(0);
     const [commision, setCommision] = useState(0)
     const [stocks, setStocks] = useState([])
-    const [idstock, setIdStock] = useState("")
+    const [balance, setBalance] = useState(0)
+    const [isConfirm, setIsConfirm] = useState(false)
     
 
     // Custom Hooks
     const { cart, addToCart, removeToCart, sumTotal, subtractTotal, total, setTotal, incrementPrice, decrementPrice, quantity } = useCart();
     const { loadData, loadDataWithPathVariable, submitNewData, updateData } = useAxios();
-    const { counter, increase } = useCounter()
-    
-    const [balance, setBalance] = useState(0)
+    const {counter, increase} = useCounter();
+
+
 
     const [customer, setCustomer] = useState({
         first_name: "",
@@ -42,9 +44,8 @@ function Trade() {
     });
 
     useEffect(() => {
-        loadDataWithPathVariable("customer", "getCustomer", setCustomer, 2)
+        loadDataWithPathVariable("customer", "getCustomer", setCustomer, 1)
         loadData("stock", "getAllStocks", setStocks)
-
         if (cart.length === 0) {
             setTotal(0)
         }
@@ -80,36 +81,40 @@ function Trade() {
     }
 
     const Buy = () => {
+        let newBalance = 0
         if (customer.balance >= total) {
             cart.map((stock) => {
-                const newTransaction = {
+                setTransaction({
                     shares: quantity,
                     price_per_share: stock.price,
                     transaction_fee: commision,
                     net_amount: totalAfterFee,
                     order_type: "BUY",
-                }
-                const newBalance = customer.balance - totalAfterFee
-
-                setBalance(customer.balance - totalAfterFee)
-                console.log(balance)
-                setTransaction(newTransaction)
-                if(counter > 1){
-                    alert("Thanks!")
-                    setCustomer({balance: newBalance})
-                    submitNewData("transaction", "createTransaction", transaction, stock.idstock)
-                    
-                    updateData("customer", "updateCustomer", 2, customer)
-                    console.log(customer)
-                }
-                //console.log(transaction)
+                })
+                console.log(transaction)
             });
-            increase()
+            newBalance = customer.balance - transaction.net_amount
+            console.log(newBalance)
+            setCustomer({ 
+                ...customer,
+                balance: newBalance
+            })
+            console.log(customer)
+
+            if (window.confirm("Do you want to continue with this operation")) {
+                setIsConfirm(true)
+            } 
         }
         else{
             alert("You need more money!")
         }
+
     };
+
+    const Confirm = () => {
+        updateData("customer", "updateCustomer", 2, customer)
+    }
+
 
     return (
         <div>
@@ -185,6 +190,10 @@ function Trade() {
                                     </div>
                                 </div>
 
+                            </div>
+                            <div className="card">
+                                <p>Are u sure?</p>
+                                <button onClick={Confirm}>Confirm</button>
                             </div>
                         </div>
                     )}
