@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/InfoSupport.css'
+import '../styles/infoSupport.css'
 
 function InfoSupport() {
     return (
