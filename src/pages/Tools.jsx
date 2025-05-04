@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import '../styles/Tools.css';
-// import { calculerResultats } from '../composante/calculTaxes';
+import axios from 'axios';
 
 
 const champs = [
@@ -18,99 +18,118 @@ const champs = [
 
 function Tools() {
 
-    const [employmentIncome, setEmploymentIncome] = useState('');
-    const [selfEmploymentIncome, setSelfEmploymentIncome] = useState('');
-    const [RRSPandFHSADeductions, setRRSPandFHSADeductions] = useState('');
-    const [gainCapitalBefore, setGainCapitalBefore] = useState('');
-    const [gainCapitalAfter, setGainCapitalAfter] = useState('');
-    const [eligibleDividends, setEligibleDividends] = useState('');
-    const [ineligibleDividends, setIneligibleDividends] = useState('');
-    const [otherIncome, setOtherIncome] = useState('');
-    const [incomeTaxesPaid, setIncomeTaxesPaid] = useState('');
+    const [formData, setFormData] = useState({
+        employmentIncome: '',
+        selfEmploymentIncome: '',
+        RRSPandFHSADeductions: '',
+        gainCapitalBefore: '',
+        gainCapitalAfter: '',
+        eligibleDividends: '',
+        ineligibleDividends: '',
+        otherIncome: '',
+        incomeTaxesPaid: ''
+    });
 
+    
+    const [result, setResult] = useState({
+        totalIncome: 0,
+        totalTax: 0,
+        federalTax: 0,
+        provTax: 0,
+        afterTaxIncome: 0,
+        avrgTaxRate: 0,
+        marginalTaxRate: 0
+      });
+
+    const changement = (e) => {
+        const { id, value } = e.target;
+        setFormData({ ...formData, [id]: value });
+    };
+
+    const calculer = async (e) => {
+        e.preventDefault();
+        try {
+            //DTO
+            const response = await axios.post('http://localhost:8585/tax/taxCalculate', formData);
+            setResult(response.data);
+        } catch (error) {
+            console.error('Error calculating taxes:', error);
+        }
+    
+    }
     return (
         <div>
 
             <div className="container">
                 <h2 className="tax-calculator-title">Calculateur d'impôt pour le Québec 2025</h2>
                 <p className="tax-calculator-description">
-                    Calculate your taxes easily with our tax calculator. Just enter your income and let us do the rest!
+                Calculez facilement vos impôts grâce à notre simulateur. Indiquez simplement vos revenus et nous nous occupons du reste !
                 </p>
 
                 <div className="row tax-calculator">
                     <div className="col tax-form">
-                        <div className="p-3 border rounded bg-white">
+                        <div className="p-3  rounded">
                             <h4 className="mb-3">Formulaire</h4>
 
-                            {champs.map((champ) => {
-                                let value = '';
-                                let setValue = () => { };
-
-                                switch (champ.state) {
-                                    case 'employmentIncome':
-                                        value = employmentIncome;
-                                        setValue = setEmploymentIncome;
-                                        break;
-                                    case 'selfEmploymentIncome':
-                                        value = selfEmploymentIncome;
-                                        setValue = setSelfEmploymentIncome;
-                                        break;
-                                    case 'RRSPandFHSADeductions':
-                                        value = RRSPandFHSADeductions;
-                                        setValue = setRRSPandFHSADeductions;
-                                        break;
-                                    case 'gainCapitalBefore':
-                                        value = gainCapitalBefore;
-                                        setValue = setGainCapitalBefore;
-                                        break;
-                                    case 'gainCapitalAfter':
-                                        value = gainCapitalAfter;
-                                        setValue = setGainCapitalAfter;
-                                        break;
-                                    case 'eligibleDividends':
-                                        value = eligibleDividends;
-                                        setValue = setEligibleDividends;
-                                        break;
-                                    case 'ineligibleDividends':
-                                        value = ineligibleDividends;
-                                        setValue = setIneligibleDividends;
-                                        break;
-                                    case 'otherIncome':
-                                        value = otherIncome;
-                                        setValue = setOtherIncome;
-                                        break;
-                                    case 'incomeTaxesPaid':
-                                        value = incomeTaxesPaid;
-                                        setValue = setIncomeTaxesPaid;
-                                        break;
-                                    default:
-                                        break;
-                                }
-
-                                return (
-                                    <div className="mb-3" key={champ.id}>
-                                        <label htmlFor={champ.id} className="form-label">{champ.label}</label>
-                                        <input
-                                            type="number"
-                                            className="form-control"
-                                            id={champ.id}
-                                            value={value}
-                                            onChange={(e) => setValue(e.target.value)}
-                                            placeholder="0 $"
-                                        />
-                                    </div>
-                                );
-                            })}
+                            {champs.map((champ) => (
+                                <div className="mb-3" key={champ.id}>
+                                    <label htmlFor={champ.id} className="form-label">{champ.label}</label>
+                                    <input
+                                    type="number"
+                                    className="form-control"
+                                    id={champ.id}
+                                    value={formData[champ.id]}
+                                    onChange={changement}
+                                    placeholder="0 $"
+                                    />
+                                </div>
+                                ))}
                         </div>
                     </div>
 
                     <div className="col tax-result">
                         <div className="tax-result-content">
-                            <h4>Vos rsultat</h4>
-                            <p><strong>Revenu total:</strong> {employmentIncome || '0'} $</p>
+                            <h2>Vos résultats</h2>
+                            <hr />
 
+                            <div className="section-title line total-bold"><span>Revenu total</span><span>{Number(result.totalIncome).toLocaleString()} $</span></div>
+                            <hr />
+
+                            <div className="section-title line total-bold"><span>Impôt total</span> <span>{Number(result.totalTax).toLocaleString()} $</span></div>
+                            <div className="line"><span>Impôt fédéral</span><span>{Number(result.federalTax).toLocaleString()} $</span></div>
+                            <div className="line"><span>Impôt provincial</span><span>{Number(result.provTax).toLocaleString()} $</span></div>
+                            <hr />
+
+                            <div className=""></div>
+                            <div className="section-title line total-bold"><span>Revenu après impôt</span><span>{Number(result.afterTaxIncome).toLocaleString()} $</span></div>
+                            <hr />
+
+                            <div className="line"><span>Taux moyen</span><span>{Number(result.avrgTaxRate).toLocaleString()} %</span></div>
+                            <div className="line"><span>Taux marginal</span><span>{Number(result.marginalTaxRate).toLocaleString()} %</span></div>
+
+                            <hr />
+
+                            <button className="btn btn-primary cal" id="btn-calculer" onClick={calculer}>
+                            Calculer
+                            </button>
+
+                            <hr />
+
+                            <div className="tax-summary">
+                            Si vous gagnez {Number(result.totalIncome).toLocaleString()}$ par an, vous paierez environ {Number(result.totalTax).toLocaleString()}$ d’impôt. 
+                            Cela vous laissera un revenu net de {Number(result.afterTaxIncome).toLocaleString()}$, soit un taux moyen de {Number(result.avrgTaxRate).toLocaleString()}%. 
+                            Votre taux marginal est de {Number(result.marginalTaxRate).toLocaleString()}%.
+                            </div>
+
+                            <hr />
+
+                            <div className="tax-note">
+                            Ces calculs sont approximatifs et incluent les crédits non remboursables de base, les cotisations au RRQ/RQAP, 
+                            et les primes d’assurance-emploi. Mise à jour en date de 2025.
+                            </div>
                         </div>
-                    </div>
+                        </div>
+
                 </div>
             </div>
         </div>
