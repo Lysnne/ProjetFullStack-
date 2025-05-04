@@ -12,6 +12,7 @@ import Login from '../pages/Login';
 import InfoSupport from '../components/InfoSupport';
 import Trade from '../pages/Trade';
 import Profile from '../pages/Profile';
+import Portfolio from '../pages/Portfolio';
 
 const Router = ({ auth, setAuth }) => {
   return (
@@ -26,6 +27,7 @@ const Router = ({ auth, setAuth }) => {
         <Route path="/infoSupport" element={<InfoSupport />} />
         <Route path="/trade" element={<Trade />} />
         <Route path="/learn" element={<Learn />} />
+        <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/login" element={<Login setAuth={setAuth} />} />
         <Route path="/profile" element={<Profile auth={auth} setAuth={setAuth} />} />
         <Route path="*" element={<NotFound />} />

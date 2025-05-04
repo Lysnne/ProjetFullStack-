@@ -1,11 +1,10 @@
-import React, {useState } from "react";
+import React from 'react';
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+
 
 const API_URL = import.meta.env.VITE_API_URL || ""
 
 const useAxios = () => {
-    const navigate = useNavigate();
 
     //// GET
     const loadData = async (model, request, set) => {
