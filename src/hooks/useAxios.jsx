@@ -44,6 +44,15 @@ const useAxios = () => {
         
     }
 
+    const createObject = (model, request, object) => {
+        const url = `${API_URL}/${model}/${request}`
+        console.log(url)
+        axios.post(url, object)
+        .catch((error) => {
+            console.log("Error sending new Object", error)
+        });
+    }
+
 
     //// DELETE
 
@@ -78,7 +87,8 @@ const useAxios = () => {
        loadDataWithPathVariable,
        submitNewData, 
        deleteData,
-       updateData
+       updateData,
+       createObject
     };
     
 };

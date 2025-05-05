@@ -82,6 +82,7 @@ function Trade() {
 
     const Buy = () => {
         if (customer.balance >= total) {
+
             // mappage du panier 
             cart.map((stock) => {
                 if (!isConfirm) {
@@ -112,12 +113,22 @@ function Trade() {
 
     };
 
+    const Sell = () => {
+        
+    }
+
     
 
     useEffect(() => {
         if (isConfirm) {
-            console.log("New Transaction: ", transaction)
-            submitNewData("transaction", "createTransaction", transaction, customer.idcustomer)
+            cart.map((stock) => {
+                console.log(stock)
+                console.log(stock.idstock)
+                console.log("New Transaction: ", transaction)
+                submitNewData("transaction", "createTransaction", transaction, stock.idstock)
+                
+
+            })
 
             console.log("Update Customer:", customer)
             updateData("customer", "updateCustomer", customer.idcustomer, customer)
