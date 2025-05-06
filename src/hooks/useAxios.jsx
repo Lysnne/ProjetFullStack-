@@ -1,4 +1,3 @@
-import React from 'react';
 import axios from 'axios';
 
 
@@ -75,7 +74,6 @@ const useAxios = () => {
             const url = `${API_URL}/${model}/${request}/${id}`
             console.log(url)
             await axios.put(url, object);
-            // navigate("/");
         }
         catch (error){
             console.error("Error updating Data: ", error);

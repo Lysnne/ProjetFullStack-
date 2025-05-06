@@ -16,7 +16,6 @@ import Portfolio from '../pages/Portfolio';
 
 const Router = ({ auth, setAuth }) => {
   return (
-    
       <Routes>
         <Route index element={<Home />} />
         <Route path="/" element={<Home />} />

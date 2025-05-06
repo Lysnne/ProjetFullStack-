@@ -14,11 +14,13 @@ function Trade() {
     const [stocks, setStocks] = useState([])
     const [isConfirm, setIsConfirm] = useState(false)
     const navigate = useNavigate();
+    const [transactions, setTransactions] = useState([])
 
     // Custom Hooks
     const { cart, addToCart, removeToCart, sumTotal, subtractTotal, total, setTotal, incrementPrice, decrementPrice, quantity } = useCart();
     const { loadData, loadDataWithPathVariable, submitNewData, updateData } = useAxios();
 
+    
     
 
     const [customer, setCustomer] = useState({
@@ -45,6 +47,7 @@ function Trade() {
     useEffect(() => {
         loadDataWithPathVariable("customer", "getCustomer", setCustomer, 1)
         loadData("stock", "getAllStocks", setStocks)
+        loadDataWithPathVariable("transaction", "getAllTransactionsById", setTransactions, 1)
     }, []);
 
     useEffect(() => {
@@ -114,7 +117,7 @@ function Trade() {
     };
 
     const Sell = () => {
-        
+        cart.map
     }
 
     
@@ -129,7 +132,6 @@ function Trade() {
                 
 
             })
-
             console.log("Update Customer:", customer)
             updateData("customer", "updateCustomer", customer.idcustomer, customer)
 
