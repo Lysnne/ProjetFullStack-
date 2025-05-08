@@ -1,6 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
+import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL || ""
 
@@ -35,7 +36,10 @@ const Portfolio = () => {
         loadDataWithPathVariable("portfolio", "getPortfolio", setPortfolio, 1)
         loadDataWithPathVariable("transaction", "getAllTransactionsById", setTransactions, 1)
         loadData("stock", "getAllStocks", setStocks)
+    
     }, []);
+
+    
 
     return (
         <div>
