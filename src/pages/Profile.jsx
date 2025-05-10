@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import useAxios from "../hooks/useAxios";
 import '../styles/Profile.css';
 
 const Profile = () => {
@@ -10,11 +11,42 @@ const Profile = () => {
     });
     const [editedUserInfo, setEditedUserInfo] = useState(userInfo);
 
-    const [stocks, setStocks] = useState({
-        total: 56,
-        active: 32,
-        pending: 11
+    const [customer, setCustomer] = useState({
+        idcustomer: "",
+        first_name: "",
+        last_name: "",
+        date_of_birth: "",
+        email: "",
+        phone: "",
+        username: "",
+        password: "",
+        balance: ""
     });
+
+    const [portfolio, setPortfolio] = useState({
+        shares_owned: "",
+        total_profit: "",
+        total_value: "",
+        id_portfolio: "",
+        idcustomer: ""
+    })
+
+    const [stocks, setStocks] = useState([]);
+
+
+    const { loadDataWithPathVariable } = useAxios();
+
+
+    useEffect(() => {
+        loadDataWithPathVariable("customer", "getCustomer", setCustomer, 1)
+        loadDataWithPathVariable("portfolio", "getPortfolio", setPortfolio, 1)
+        loadDataWithPathVariable("transaction", "getQuantityStocksOwned", setStocks, 1)
+
+
+
+    }, []);
+
+
 
     const [transactions, setTransactions] = useState([
         { id: 1, date: '2024-03-15', type: 'Achat', amount: '1500€', status: 'Complété' },
@@ -48,8 +80,8 @@ const Profile = () => {
             <div className="profile-sidebar">
                 <div className="profile-header">
                     <div className="profile-image">
-                        <img src='../images/avatar icon.png'/>
-                        
+                        <img src='../images/avatar icon.png' />
+
                     </div>
                     <h2>{userInfo?.username || 'Utilisateur'}</h2>
                     <p className="user-role">Investisseur</p>
@@ -57,46 +89,52 @@ const Profile = () => {
 
                 <div className="profile-stats">
                     <div className="stat-item">
-                        <span className="stat-value">{stocks.total}</span>
-                        <span className="stat-label">Total Stocks</span>
+                        <span className="stat-value">{portfolio.shares_owned}</span>
+                        <span className="stat-label">Total <br/> Stocks</span>
                     </div>
                     <div className="stat-item">
-                        <span className="stat-value">{stocks.active}</span>
-                        <span className="stat-label">Actifs</span>
+                        <span className="stat-value">{portfolio.total_profit}</span>
+                        <span className="stat-label">Total <br/> Profit</span>
                     </div>
                     <div className="stat-item">
-                        <span className="stat-value">{stocks.pending}</span>
-                        <span className="stat-label">En attente</span>
+                        <span className="stat-value">{portfolio.total_value}</span>
+                        <span className="stat-label">Total <br/> Value</span>
                     </div>
                 </div>
 
-               
+
             </div>
 
             <div className="profile-content">
                 <div className="profile-tabs">
-                    <button 
-                    /*Elle concatène la classe "tab" css avec une fonction activeTab :
-                    Si l'onglet actif est "account" (donc activeTab === 'account') :
-                    on ajoute "active" (classe CSS active).
-                    Sinon :
-                     on ajoute une chaîne vide */
+                    <button
+                        /*Elle concatène la classe "tab" css avec une fonction activeTab :
+                        Si l'onglet actif est "account" (donc activeTab === 'account') :
+                        on ajoute "active" (classe CSS active).
+                        Sinon :
+                         on ajoute une chaîne vide */
                         className={`tab ${activeTab === 'account' ? 'active' : ''}`}
                         onClick={() => setActiveTab('account')}
                     >
                         Compte
                     </button>
-                    <button 
+                    <button
                         className={`tab ${activeTab === 'security' ? 'active' : ''}`}
                         onClick={() => setActiveTab('security')}
                     >
                         Sécurité
                     </button>
-                    <button 
+                    <button
                         className={`tab ${activeTab === 'transactions' ? 'active' : ''}`}
                         onClick={() => setActiveTab('transactions')}
                     >
                         Transactions
+                    </button>
+                    <button
+                        className={`tab ${activeTab === 'portfolio' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('portfolio')}
+                    >
+                        Portfolio
                     </button>
                 </div>
 
@@ -107,24 +145,24 @@ const Profile = () => {
                                 <div className="input-row">
                                     <div className="input-group">
                                         <label>Prénom</label>
-                                        <input 
-                                            type="text" 
+                                        <input
+                                            type="text"
                                             name="firstName"
                                             /* Si isEditing est vrai, utiliser editedUserInfo.firstName (s'il existe) ( ou ''(vite) s'il n'existe pas) ;
                                             si isEditing est faux (c'est-à-dire après le :), utiliser userInfo.firstName (s'il existe, ou '' sinon) .
                                             Si on est en mode édition (isEditing === true), on affiche la valeur éditable (editedUserInfo.lastName).
-                                            Sinon, on affiche juste la valeur sauvegardée (userInfo.lastName).*/ 
-                                            value={isEditing ? editedUserInfo?.firstName || '' : userInfo?.firstName || ''} 
+                                            Sinon, on affiche juste la valeur sauvegardée (userInfo.lastName).*/
+                                            value={isEditing ? editedUserInfo?.firstName || '' : userInfo?.firstName || ''}
                                             onChange={Change}
                                             readOnly={!isEditing}
                                         />
                                     </div>
                                     <div className="input-group">
                                         <label>Nom</label>
-                                        <input 
-                                            type="text" 
+                                        <input
+                                            type="text"
                                             name="lastName"
-                                            value={isEditing ? editedUserInfo?.lastName || '' : userInfo?.lastName || ''} 
+                                            value={isEditing ? editedUserInfo?.lastName || '' : userInfo?.lastName || ''}
                                             onChange={Change}
                                             readOnly={!isEditing}//Si on n’est pas en train d’éditer, alors on rend le champ non modifiable.
                                         />
@@ -133,20 +171,20 @@ const Profile = () => {
                                 <div className="input-row">
                                     <div className="input-group">
                                         <label>Email</label>
-                                        <input 
-                                            type="email" 
+                                        <input
+                                            type="email"
                                             name="email"
-                                            value={isEditing ? editedUserInfo?.email || '' : userInfo?.email || ''} 
+                                            value={isEditing ? editedUserInfo?.email || '' : userInfo?.email || ''}
                                             onChange={Change}
                                             readOnly={!isEditing}
                                         />
                                     </div>
                                     <div className="input-group">
                                         <label>Téléphone</label>
-                                        <input 
-                                            type="tel" 
+                                        <input
+                                            type="tel"
                                             name="phone"
-                                            value={isEditing ? editedUserInfo?.phone || '' : userInfo?.phone || ''} 
+                                            value={isEditing ? editedUserInfo?.phone || '' : userInfo?.phone || ''}
                                             onChange={Change}
                                             readOnly={!isEditing}
                                         />
@@ -156,23 +194,23 @@ const Profile = () => {
                                 <div className="input-row">
                                     <div className="input-group">
                                         <label>Ville</label>
-                                        <input 
-                                            type="text" 
+                                        <input
+                                            type="text"
                                             name="city"
-                                            value={isEditing ? editedUserInfo?.city || '' : userInfo?.city || ''} 
+                                            value={isEditing ? editedUserInfo?.city || '' : userInfo?.city || ''}
                                             onChange={Change}
                                             readOnly={!isEditing}
-                                         
+
                                         />
                                     </div>
                                 </div>
                                 <div className="input-row">
                                     <div className="input-group">
                                         <label>Adresse</label>
-                                        <input 
-                                            type="text" 
+                                        <input
+                                            type="text"
                                             name="address"
-                                            value={isEditing ? editedUserInfo?.address || '' : userInfo?.address || ''} 
+                                            value={isEditing ? editedUserInfo?.address || '' : userInfo?.address || ''}
                                             onChange={Change}
                                             readOnly={!isEditing}
                                         />
@@ -212,6 +250,30 @@ const Profile = () => {
                                                     {transaction.status}
                                                 </span>
                                             </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+
+                    {activeTab === 'portfolio' && (
+                        <div className="transactions-list">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Price</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {stocks.map((stock, index) => (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{stock.name}</td>
+                                            <td>{stock.price}</td>
                                         </tr>
                                     ))}
                                 </tbody>
