@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
 import '../styles/Login.css'
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 
 // fonction pour dire si l'utilisateur est connecté ou non.
-const Login =({setAuth}) => {
+const Login =({auth, setAuth}) => {
     const [user , setUser] = useState({username: "", password:""});
     const [error, setError] = useState(false);
     const navigate = useNavigate();
@@ -16,7 +16,6 @@ const Login =({setAuth}) => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-     
         try {
             const response = await axios.post(`http://localhost:8585/customer/signin/${user.username}/${user.password}`,);
             if (response.data) {
@@ -35,6 +34,8 @@ const Login =({setAuth}) => {
             setError(true);
         }
     };
+
+
 
     return (
         <div className='login-container'>
@@ -60,7 +61,7 @@ const Login =({setAuth}) => {
                         </div>
                         <div className='form-group'>
                       
-                            <button id="login-button" hideHeader  type="submit">S'identifier</button>
+                            <button id="login-button"  type="submit">S'identifier</button>
                         </div>
                       
                         {error && <p className="error-message">Invalid credentials</p>}

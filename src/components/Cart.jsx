@@ -6,7 +6,7 @@ function Cart({ cartItem, incrementPrice, decrementPrice, removeToCart}) {
     const {counter, increase, decrement} = useCounter()
 
     useEffect(() => {
-        if (counter === 0) {
+        if (counter == 0) {
             removeToCart(cartItem)
         }
 

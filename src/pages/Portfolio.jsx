@@ -1,7 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
-import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL || ""
 
@@ -39,11 +38,8 @@ const Portfolio = () => {
     
     }, []);
 
-    
-
     return (
         <div>
-           
             <div>
                 <h3>Shares owned: {portfolio.shares_owned}</h3>
                 <h3>Total of profit: {portfolio.total_profit}</h3>

@@ -13,15 +13,13 @@ function Trade() {
     const [commision, setCommision] = useState(0)
     const [stocks, setStocks] = useState([])
     const [isConfirm, setIsConfirm] = useState(false)
-    const navigate = useNavigate();
     const [transactions, setTransactions] = useState([])
+    const navigate = useNavigate();
+    
 
     // Custom Hooks
     const { cart, addToCart, removeToCart, sumTotal, subtractTotal, total, setTotal, incrementPrice, decrementPrice, quantity } = useCart();
     const { loadData, loadDataWithPathVariable, submitNewData, updateData } = useAxios();
-
-    
-    
 
     const [customer, setCustomer] = useState({
         idcustomer: "",
@@ -54,8 +52,6 @@ function Trade() {
         transactionFee(total);
     }, [total]);
 
-   
-
     const transactionFee = (total) => {
         let commisionRate = 0
         if (total < 250) {
@@ -85,11 +81,9 @@ function Trade() {
 
     const Buy = () => {
         if (customer.balance >= total) {
-
             // mappage du panier 
             cart.map((stock) => {
                 if (!isConfirm) {
-
                     // Creating new Transaction
                     setTransaction({
                         ...transaction,
@@ -99,7 +93,6 @@ function Trade() {
                         net_amount: totalAfterFee,
                         order_type: "BUY",
                     })
-
                     // Updating volume du customer
                     setCustomer({
                         ...customer,
@@ -108,19 +101,12 @@ function Trade() {
                     setIsConfirm(true)
                 }
             });
-            
         }
         else {
             alert("You need more money!")
         }
 
     };
-
-    const Sell = () => {
-        cart.map
-    }
-
-    
 
     useEffect(() => {
         if (isConfirm) {
@@ -129,18 +115,13 @@ function Trade() {
                 console.log(stock.idstock)
                 console.log("New Transaction: ", transaction)
                 submitNewData("transaction", "createTransaction", transaction, stock.idstock)
-                
-
             })
             console.log("Update Customer:", customer)
-            updateData("customer", "updateCustomer", customer.idcustomer, customer)
+            updateData("customer", "updateBalance", customer.idcustomer, customer)
 
             navigate("/")
         }
     }, [transaction, customer])
-
-
-
 
     return (
         <div>
@@ -149,7 +130,7 @@ function Trade() {
                 <div className="container ms-5">
                     <div className='row justify-content-center'>
                         {stocks.map((stock, index) => (
-                            <div key={index} className="col-4 m-2">
+                            <div key={index} className="col-sm-4 m-2">
                                 <div className="card">
                                     <div className="card-title p-1 h4">
                                         {stock.name}
@@ -174,11 +155,8 @@ function Trade() {
                                 </div>
                             </div>
                         ))}
-
-
                     </div>
                 </div>
-
                 <div className='container .d-none px-10'>
                     {cart.length > 0 && (
                         <div className='card col-5'>
@@ -187,48 +165,33 @@ function Trade() {
                             </div>
                             <div className='card'>
                                 <div className='card-body gap-1'>
-
                                     {cart.map((cartItem, index) => (
-                                        <Cart key={index}
+                                        <Cart key={index + 1}
                                             cartItem={cartItem}
                                             incrementPrice={incrementPrice}
                                             decrementPrice={decrementPrice}
                                             removeToCart={removeToCart}
                                         />
                                     ))}
-
-
-
                                 </div>
                                 <div className='card-footer text-muted'>
                                     <p className='h5 m-2'>Total: {total}</p>
                                     <p className='h5 m-2'>Commision: {commision * 100 + "%"}</p>
                                     <p className='h5 m-2'>quantity of shares: {quantity}</p><br></br>
                                     <p className='h3 m-2'>Total after fee: ${totalAfterFee.toFixed(2)}</p>
-
-
                                     <div className=' gap-4'>
                                         <button className='btn btn-primary btn-sm h5' onClick={() => {
                                             Buy();
-                                        }
-                                        }>Buy</button>
-                                        <button className='btn btn-secondary btn-sm h5'>Sell</button>
+                                        }}>Buy</button>
+
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     )}
-
-
                 </div>
             </div>
         </div >
-
-
-
-
-
     );
 }
 

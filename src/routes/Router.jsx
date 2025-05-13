@@ -1,5 +1,5 @@
-import 'react';
-import {  Routes, Route, useLocation } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom'
 
 import Home from '../pages/Home'
 import AboutUs from '../pages/About'
@@ -15,15 +15,18 @@ import Profile from '../pages/Profile';
 import Portfolio from '../pages/Portfolio';
 import Header from '../components/Header';
 
-const Router = ({ auth, setAuth }) => {
+const Router = () => {
+  const location = useLocation();
+  const hideHeader = location.pathname === "/Login";
+  const [auth, setAuth] = useState(false);
+  const [userInfo, setUserInfo] = useState(() => {
+    const savedUser = localStorage.getItem('loggedUser');//prendre les donnes du localstorage de l'utilisateur pour pouvoir les utiliser et initialiser l'état userInfo
+    return savedUser ? JSON.parse(savedUser) : null;//Si aucune donnée n’est trouvée, l’état est null.
+  });
 
-
-   const location = useLocation();
-   const hideHeader = location.pathname === "/Login";
   return (
     <>
-
-    {!hideHeader && <Header />}
+      {!hideHeader && <Header />}
       <Routes>
         <Route index element={<Home />} />
         <Route path="/" element={<Home />} />
@@ -35,13 +38,12 @@ const Router = ({ auth, setAuth }) => {
         <Route path="/trade" element={<Trade />} />
         <Route path="/learn" element={<Learn />} />
         <Route path="/portfolio" element={<Portfolio />} />
-        <Route path="/login" element={<Login setAuth={setAuth} />} />
-        
-        <Route path="/profile" element={<Profile auth={auth} setAuth={setAuth} />} />
+        <Route path="/login" element={<Login auth={auth} setAuth={setAuth} />} />
+        <Route path="/profile" element={<Profile  userInfo={userInfo} setUserInfo={setUserInfo} setAuth={setAuth}/>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      </>
-    
+    </>
+
   );
 };
 

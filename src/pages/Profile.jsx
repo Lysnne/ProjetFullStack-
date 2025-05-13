@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import useAxios from "../hooks/useAxios";
 import '../styles/Profile.css';
 
-const Profile = () => {
+const Profile = ({userInfo, setUserInfo, setAuth}) => {
     const [activeTab, setActiveTab] = useState('account');
     const [isEditing, setIsEditing] = useState(false);
-    const [userInfo, setUserInfo] = useState(() => {
-        const savedUser = localStorage.getItem('loggedUser');//prendre les donnes du localstorage de l'utilisateur pour pouvoir les utiliser et initialiser l'état userInfo
-        return savedUser ? JSON.parse(savedUser) : null;// Si aucune donnée n’est trouvée, l’état est null.
-    });
+    
     const [editedUserInfo, setEditedUserInfo] = useState(userInfo);
 
+    
     const [customer, setCustomer] = useState({
         idcustomer: "",
         first_name: "",
@@ -32,27 +30,18 @@ const Profile = () => {
     })
 
     const [stocks, setStocks] = useState([]);
-
-
     const { loadDataWithPathVariable } = useAxios();
 
-
+    // Premier render
     useEffect(() => {
-        loadDataWithPathVariable("customer", "getCustomer", setCustomer, 1)
+        loadDataWithPathVariable("customer", "getCustomer", setCustomer, userInfo.idcustomer)
         loadDataWithPathVariable("portfolio", "getPortfolio", setPortfolio, 1)
-        loadDataWithPathVariable("transaction", "getQuantityStocksOwned", setStocks, 1)
-
-
+        loadDataWithPathVariable("transaction", "getQuantityStocksOwned", setStocks, userInfo.idcustomer)
+        console.log("INFOMARTION OF USER: ", userInfo)
+        setAuth(true)
 
     }, []);
-
-
-
-    const [transactions, setTransactions] = useState([
-        { id: 1, date: '2024-03-15', type: 'Achat', amount: '1500€', status: 'Complété' },
-        { id: 2, date: '2024-03-10', type: 'Vente', amount: '2300€', status: 'Complété' },
-        { id: 3, date: '2024-03-05', type: 'Achat', amount: '800€', status: 'En attente' }
-    ]);
+    
 
     const Change = (e) => {
         const { name, value } = e.target;
@@ -81,12 +70,10 @@ const Profile = () => {
                 <div className="profile-header">
                     <div className="profile-image">
                         <img src='../images/avatar icon.png' />
-
                     </div>
                     <h2>{userInfo?.username || 'Utilisateur'}</h2>
                     <p className="user-role">Investisseur</p>
                 </div>
-
                 <div className="profile-stats">
                     <div className="stat-item">
                         <span className="stat-value">{portfolio.shares_owned}</span>
@@ -101,8 +88,6 @@ const Profile = () => {
                         <span className="stat-label">Total <br/> Value</span>
                     </div>
                 </div>
-
-
             </div>
 
             <div className="profile-content">
@@ -152,7 +137,7 @@ const Profile = () => {
                                             si isEditing est faux (c'est-à-dire après le :), utiliser userInfo.firstName (s'il existe, ou '' sinon) .
                                             Si on est en mode édition (isEditing === true), on affiche la valeur éditable (editedUserInfo.lastName).
                                             Sinon, on affiche juste la valeur sauvegardée (userInfo.lastName).*/
-                                            value={isEditing ? editedUserInfo?.firstName || '' : userInfo?.firstName || ''}
+                                            value={isEditing ? editedUserInfo?.first_name || '' : userInfo?.first_name || ''}
                                             onChange={Change}
                                             readOnly={!isEditing}
                                         />
