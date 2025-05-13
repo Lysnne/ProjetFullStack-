@@ -3,10 +3,12 @@ import '../styles/Login.css'
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
+// fonction pour dire si l'utilisateur est connecté ou non.
 const Login =({setAuth}) => {
     const [user , setUser] = useState({username: "", password:""});
     const [error, setError] = useState(false);
     const navigate = useNavigate();
+   
 
     const handleChange = (e) => {
         setUser({... user, [e.target.name]: e.target.value});
@@ -18,7 +20,11 @@ const Login =({setAuth}) => {
         try {
             const response = await axios.post(`http://localhost:8585/customer/signin/${user.username}/${user.password}`,);
             if (response.data) {
-                localStorage.setItem("loggedUser", JSON.stringify(response.data));
+                localStorage.setItem("loggedUser", JSON.stringify(response.data));/*
+                 Enregistre une paire clé/valeur dans le localStorage du navigateur.
+                 tu enregistres les données de l'utilisateur (response.data) sous la clé "loggedUser"
+                 Convertit l'objet JavaScript (response.data) en une chaîne de texte au format JSON.
+                 Le localStorage ne peut stocker que des chaînes de texte.*/ 
                 setAuth(true);
                 navigate("/profile");
             } else {
@@ -53,12 +59,10 @@ const Login =({setAuth}) => {
                             />
                         </div>
                         <div className='form-group'>
-                            <button id="login-button" type="submit">S'identifier</button>
+                      
+                            <button id="login-button" hideHeader  type="submit">S'identifier</button>
                         </div>
-                        <div className='form-links'>
-                            
-                         
-                        </div>
+                      
                         {error && <p className="error-message">Invalid credentials</p>}
                     </form>
                 </div>

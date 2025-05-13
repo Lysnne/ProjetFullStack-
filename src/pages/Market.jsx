@@ -23,6 +23,8 @@ function Market() {
 
 
     return (
+
+        
         <div className="container mt-4">
             <h1>Market</h1>
 

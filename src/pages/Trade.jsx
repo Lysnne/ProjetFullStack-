@@ -4,23 +4,27 @@ import Cart from '../components/Cart';
 
 import useCart from "../hooks/useCart";
 import useAxios from "../hooks/useAxios";
-import useCounter from "../hooks/useCounter";
+import { useNavigate } from "react-router-dom";
+
+
 
 function Trade() {
     const [totalAfterFee, setTotalAfterFee] = useState(0);
     const [commision, setCommision] = useState(0)
     const [stocks, setStocks] = useState([])
-    const [idstock, setIdStock] = useState("")
-    
+    const [isConfirm, setIsConfirm] = useState(false)
+    const navigate = useNavigate();
+    const [transactions, setTransactions] = useState([])
 
     // Custom Hooks
     const { cart, addToCart, removeToCart, sumTotal, subtractTotal, total, setTotal, incrementPrice, decrementPrice, quantity } = useCart();
     const { loadData, loadDataWithPathVariable, submitNewData, updateData } = useAxios();
-    const { counter, increase } = useCounter()
+
     
-    const [balance, setBalance] = useState(0)
+    
 
     const [customer, setCustomer] = useState({
+        idcustomer: "",
         first_name: "",
         last_name: "",
         date_of_birth: "",
@@ -36,23 +40,21 @@ function Trade() {
         price_per_share: "",
         transaction_fee: "",
         net_amount: "",
-        order_type: "",
-        transaction_date: "",
-        transaction_status: ""
+        order_type: ""
     });
 
+    // Render seulement dans le premier render
     useEffect(() => {
-        loadDataWithPathVariable("customer", "getCustomer", setCustomer, 2)
+        loadDataWithPathVariable("customer", "getCustomer", setCustomer, 1)
         loadData("stock", "getAllStocks", setStocks)
-
-        if (cart.length === 0) {
-            setTotal(0)
-        }
+        loadDataWithPathVariable("transaction", "getAllTransactionsById", setTransactions, 1)
     }, []);
 
     useEffect(() => {
         transactionFee(total);
     }, [total]);
+
+   
 
     const transactionFee = (total) => {
         let commisionRate = 0
@@ -71,6 +73,8 @@ function Trade() {
         else {
             commisionRate = 50 / 100
         }
+
+        Math.floor(Math.random())
         setCommision(commisionRate)
 
         const fee = total * commisionRate
@@ -81,35 +85,62 @@ function Trade() {
 
     const Buy = () => {
         if (customer.balance >= total) {
-            cart.map((stock) => {
-                const newTransaction = {
-                    shares: quantity,
-                    price_per_share: stock.price,
-                    transaction_fee: commision,
-                    net_amount: totalAfterFee,
-                    order_type: "BUY",
-                }
-                const newBalance = customer.balance - totalAfterFee
 
-                setBalance(customer.balance - totalAfterFee)
-                console.log(balance)
-                setTransaction(newTransaction)
-                if(counter > 1){
-                    alert("Thanks!")
-                    setCustomer({balance: newBalance})
-                    submitNewData("transaction", "createTransaction", transaction, stock.idstock)
-                    
-                    updateData("customer", "updateCustomer", 2, customer)
-                    console.log(customer)
+            // mappage du panier 
+            cart.map((stock) => {
+                if (!isConfirm) {
+
+                    // Creating new Transaction
+                    setTransaction({
+                        ...transaction,
+                        shares: quantity,
+                        price_per_share: stock.price,
+                        transaction_fee: commision,
+                        net_amount: totalAfterFee,
+                        order_type: "BUY",
+                    })
+
+                    // Updating volume du customer
+                    setCustomer({
+                        ...customer,
+                        balance: customer.balance - totalAfterFee
+                    })
+                    setIsConfirm(true)
                 }
-                //console.log(transaction)
             });
-            increase()
+            
         }
-        else{
+        else {
             alert("You need more money!")
         }
+
     };
+
+    const Sell = () => {
+        cart.map
+    }
+
+    
+
+    useEffect(() => {
+        if (isConfirm) {
+            cart.map((stock) => {
+                console.log(stock)
+                console.log(stock.idstock)
+                console.log("New Transaction: ", transaction)
+                submitNewData("transaction", "createTransaction", transaction, stock.idstock)
+                
+
+            })
+            console.log("Update Customer:", customer)
+            updateData("customer", "updateCustomer", customer.idcustomer, customer)
+
+            navigate("/")
+        }
+    }, [transaction, customer])
+
+
+
 
     return (
         <div>
@@ -171,7 +202,7 @@ function Trade() {
                                 </div>
                                 <div className='card-footer text-muted'>
                                     <p className='h5 m-2'>Total: {total}</p>
-                                    <p className='h5 m-2'>Commision: {commision  * 100 + "%"}</p>
+                                    <p className='h5 m-2'>Commision: {commision * 100 + "%"}</p>
                                     <p className='h5 m-2'>quantity of shares: {quantity}</p><br></br>
                                     <p className='h3 m-2'>Total after fee: ${totalAfterFee.toFixed(2)}</p>
 

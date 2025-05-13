@@ -1,11 +1,9 @@
-import React, {useState } from "react";
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+
 
 const API_URL = import.meta.env.VITE_API_URL || ""
 
 const useAxios = () => {
-    const navigate = useNavigate();
 
     //// GET
     const loadData = async (model, request, set) => {
@@ -39,13 +37,19 @@ const useAxios = () => {
         const url = `${API_URL}/${model}/${request}/${id}`
         console.log(url)
         axios.post(url, object)
-            .then(() => {
-                navigate("/")
-            })
             .catch((error) => {
                 console.log("Error sending Data", error)
             });
         
+    }
+
+    const createObject = (model, request, object) => {
+        const url = `${API_URL}/${model}/${request}`
+        console.log(url)
+        axios.post(url, object)
+        .catch((error) => {
+            console.log("Error sending new Object", error)
+        });
     }
 
 
@@ -70,7 +74,6 @@ const useAxios = () => {
             const url = `${API_URL}/${model}/${request}/${id}`
             console.log(url)
             await axios.put(url, object);
-            navigate("/");
         }
         catch (error){
             console.error("Error updating Data: ", error);
@@ -82,7 +85,8 @@ const useAxios = () => {
        loadDataWithPathVariable,
        submitNewData, 
        deleteData,
-       updateData
+       updateData,
+       createObject
     };
     
 };

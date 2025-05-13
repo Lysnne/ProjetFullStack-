@@ -62,9 +62,12 @@ const useCart = () => {
     }
 
     const decrementPrice = (price) => {
-        
         setTotal(PrevTotal => Math.round((PrevTotal - price) * 100) / 100)
         setQuantity(prevQuantity => prevQuantity - 1);
+    }
+
+    const saveTransaction = () => {
+
     }
 
     return {
