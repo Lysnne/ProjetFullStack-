@@ -78,7 +78,7 @@ const useAxios = () => {
         catch (error){
             console.error("Error updating Data: ", error);
         }
-     };
+    };
 
     return {
        loadData,

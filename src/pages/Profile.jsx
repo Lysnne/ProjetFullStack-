@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import useAxios from "../hooks/useAxios";
 import '../styles/Profile.css';
 
+//Arranger l'envoie bd
 const Profile = () => {
     const [activeTab, setActiveTab] = useState('account');
     const [isEditing, setIsEditing] = useState(false);
@@ -9,7 +10,15 @@ const Profile = () => {
         const savedUser = localStorage.getItem('loggedUser');//prendre les donnes du localstorage de l'utilisateur pour pouvoir les utiliser et initialiser l'état userInfo
         return savedUser ? JSON.parse(savedUser) : null;// Si aucune donnée n’est trouvée, l’état est null.
     });
-    const [editedUserInfo, setEditedUserInfo] = useState(userInfo);
+    const [editedUserInfo, setEditedUserInfo] = useState({
+        first_name: userInfo?.first_name || '',
+        last_name: userInfo?.last_name || '',
+        email: userInfo?.email || '',
+        phone: userInfo?.phone || '',
+        username: userInfo?.username || '',
+        date_of_birth: userInfo?.date_of_birth || '',
+        password: userInfo?.password || ''
+    });
 
     const [customer, setCustomer] = useState({
         idcustomer: "",
@@ -34,25 +43,38 @@ const Profile = () => {
     const [stocks, setStocks] = useState([]);
 
 
-    const { loadDataWithPathVariable } = useAxios();
+    const { loadDataWithPathVariable, updateData } = useAxios();
 
 
     useEffect(() => {
         loadDataWithPathVariable("customer", "getCustomer", setCustomer, 1)
         loadDataWithPathVariable("portfolio", "getPortfolio", setPortfolio, 1)
         loadDataWithPathVariable("transaction", "getQuantityStocksOwned", setStocks, 1)
-
-
+        loadDataWithPathVariable("transaction", "getAllTransactionsById", setTransactions, 1)
+      
 
     }, []);
 
+    // useEffect(() => {
+    //     if (isEditing) {
+    //         cart.map((stock) => {
+    //             console.log(stock)
+    //             console.log(stock.idstock)
+    //             console.log("New Transaction: ", transaction)
+    //             submitNewData("transaction", "createTransaction", transaction, stock.idstock)
+                
+
+    //         })
+    //         console.log("Update Customer:", customer)
+    //         updateData("customer", "updateCustomer", customer.idcustomer, customer)
+
+    //         navigate("/")
+    //     }
+    // }, [transaction, customer])
 
 
-    const [transactions, setTransactions] = useState([
-        { id: 1, date: '2024-03-15', type: 'Achat', amount: '1500€', status: 'Complété' },
-        { id: 2, date: '2024-03-10', type: 'Vente', amount: '2300€', status: 'Complété' },
-        { id: 3, date: '2024-03-05', type: 'Achat', amount: '800€', status: 'En attente' }
-    ]);
+
+    const [transactions, setTransactions] = useState([]);
 
     const Change = (e) => {
         const { name, value } = e.target;
@@ -65,9 +87,11 @@ const Profile = () => {
     const Save = () => {
         setUserInfo(editedUserInfo);// ce que l'utilisateur a écrit (editedUserInfo) 
         // devient maintenant sa nouvelle information stockée (userInfo).
-        localStorage.setItem('loggedUser', JSON.stringify(editedUserInfo));// enregistre les nouvelles informations dans le stockage local du navigateur,
+        localStorage.setItem('loggedUser', JSON.stringify(editedUserInfo));
+        updateData("customer", "customers", 1, editedUserInfo)// enregistre les nouvelles informations dans le stockage local du navigateur,
         //  afin qu'elles ne soient pas perdues si la page est rechargée.
         setIsEditing(false); //quitte le mode édition
+        //envoie les nouvelles informations à l'API pour mettre à jour le profil de l'utilisateur.
     };
 
     const Edit = () => {
@@ -119,12 +143,6 @@ const Profile = () => {
                         Compte
                     </button>
                     <button
-                        className={`tab ${activeTab === 'security' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('security')}
-                    >
-                        Sécurité
-                    </button>
-                    <button
                         className={`tab ${activeTab === 'transactions' ? 'active' : ''}`}
                         onClick={() => setActiveTab('transactions')}
                     >
@@ -152,7 +170,7 @@ const Profile = () => {
                                             si isEditing est faux (c'est-à-dire après le :), utiliser userInfo.firstName (s'il existe, ou '' sinon) .
                                             Si on est en mode édition (isEditing === true), on affiche la valeur éditable (editedUserInfo.lastName).
                                             Sinon, on affiche juste la valeur sauvegardée (userInfo.lastName).*/
-                                            value={isEditing ? editedUserInfo?.firstName || '' : userInfo?.firstName || ''}
+                                            value={ editedUserInfo.first_name}
                                             onChange={Change}
                                             readOnly={!isEditing}
                                         />
@@ -162,7 +180,7 @@ const Profile = () => {
                                         <input
                                             type="text"
                                             name="lastName"
-                                            value={isEditing ? editedUserInfo?.lastName || '' : userInfo?.lastName || ''}
+                                            value={editedUserInfo.last_name }
                                             onChange={Change}
                                             readOnly={!isEditing}//Si on n’est pas en train d’éditer, alors on rend le champ non modifiable.
                                         />
@@ -174,7 +192,7 @@ const Profile = () => {
                                         <input
                                             type="email"
                                             name="email"
-                                            value={isEditing ? editedUserInfo?.email || '' : userInfo?.email || ''}
+                                            value={editedUserInfo.email }
                                             onChange={Change}
                                             readOnly={!isEditing}
                                         />
@@ -184,7 +202,7 @@ const Profile = () => {
                                         <input
                                             type="tel"
                                             name="phone"
-                                            value={isEditing ? editedUserInfo?.phone || '' : userInfo?.phone || ''}
+                                            value={editedUserInfo.phone  }
                                             onChange={Change}
                                             readOnly={!isEditing}
                                         />
@@ -193,11 +211,11 @@ const Profile = () => {
 
                                 <div className="input-row">
                                     <div className="input-group">
-                                        <label>Ville</label>
+                                        <label>Username</label>
                                         <input
                                             type="text"
                                             name="city"
-                                            value={isEditing ? editedUserInfo?.city || '' : userInfo?.city || ''}
+                                            value={editedUserInfo.username  }
                                             onChange={Change}
                                             readOnly={!isEditing}
 
@@ -206,11 +224,11 @@ const Profile = () => {
                                 </div>
                                 <div className="input-row">
                                     <div className="input-group">
-                                        <label>Adresse</label>
+                                        <label>Date d'annivairsaire</label>
                                         <input
-                                            type="text"
+                                            type="date"
                                             name="address"
-                                            value={isEditing ? editedUserInfo?.address || '' : userInfo?.address || ''}
+                                            value={isEditing ? editedUserInfo.date_of_birth  : userInfo.date_of_birth }
                                             onChange={Change}
                                             readOnly={!isEditing}
                                         />
@@ -233,6 +251,7 @@ const Profile = () => {
                             <table>
                                 <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>Date</th>
                                         <th>Type</th>
                                         <th>Montant</th>
@@ -240,14 +259,15 @@ const Profile = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {transactions.map(transaction => (
-                                        <tr key={transaction.id}>
-                                            <td>{transaction.date}</td>
-                                            <td>{transaction.type}</td>
-                                            <td>{transaction.amount}</td>
+                                    {transactions.map((transaction, index) => (
+                                        <tr key={index}>
+                                            <td>{index +1}</td>
+                                            <td>{transaction.transaction_date}</td>
+                                            <td>{transaction.order_type}</td>
+                                            <td>{transaction.net_amount}</td>
                                             <td>
-                                                <span className={`status ${transaction.status}`}>
-                                                    {transaction.status}
+                                                <span className={`status ${transaction.transaction_status}`}>
+                                                    {transaction.transaction_status}
                                                 </span>
                                             </td>
                                         </tr>
