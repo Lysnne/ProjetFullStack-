@@ -43,6 +43,15 @@ const useAxios = () => {
         
     }
 
+    const submitNewTransaction = (model, request, object, idportfolio, idstock) => {
+        const url = `${API_URL}/${model}/${request}/${idportfolio}/${idstock}`
+        console.log(url)
+        axios.post(url, object)
+            .catch((error) => {
+                console.log("Error sending Data", error)
+            });
+    }
+
     const createObject = (model, request, object) => {
         const url = `${API_URL}/${model}/${request}`
         console.log(url)
@@ -54,7 +63,6 @@ const useAxios = () => {
 
 
     //// DELETE
-
     const deleteData = async (model, request, id) => {
         try{
             const url = `${API_URL}/${model}/${request}/${id}`
@@ -84,6 +92,7 @@ const useAxios = () => {
        loadData,
        loadDataWithPathVariable,
        submitNewData, 
+       submitNewTransaction,
        deleteData,
        updateData,
        createObject

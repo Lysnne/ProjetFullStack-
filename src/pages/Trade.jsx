@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-function Trade() {
+function Trade({userInfo, setUserInfo, auth}) {
     const [totalAfterFee, setTotalAfterFee] = useState(0);
     const [commision, setCommision] = useState(0)
     const [stocks, setStocks] = useState([])
@@ -19,7 +19,7 @@ function Trade() {
 
     // Custom Hooks
     const { cart, addToCart, removeToCart, sumTotal, subtractTotal, total, setTotal, incrementPrice, decrementPrice, quantity } = useCart();
-    const { loadData, loadDataWithPathVariable, submitNewData, updateData } = useAxios();
+    const { loadData, loadDataWithPathVariable, submitNewTransaction, updateData } = useAxios();
 
     const [customer, setCustomer] = useState({
         idcustomer: "",
@@ -34,6 +34,7 @@ function Trade() {
     });
 
     const [transaction, setTransaction] = useState({
+        idportfolio: "",
         shares: "",
         price_per_share: "",
         transaction_fee: "",
@@ -42,10 +43,17 @@ function Trade() {
     });
 
     // Render seulement dans le premier render
-    useEffect(() => {
-        loadDataWithPathVariable("customer", "getCustomer", setCustomer, 1)
-        loadData("stock", "getAllStocks", setStocks)
-        loadDataWithPathVariable("transaction", "getAllTransactionsById", setTransactions, 1)
+    useEffect(() => {        
+        console.log(auth)
+        if(!auth) {
+            navigate("/")
+        }
+        else{
+            loadDataWithPathVariable("customer", "getCustomer", setCustomer, userInfo.idcustomer)
+            loadData("stock", "getAllStocks", setStocks)
+            loadDataWithPathVariable("transaction", "getAllTransactionsById", setTransactions, userInfo.idcustomer)  
+        }
+        
     }, []);
 
     useEffect(() => {
@@ -114,11 +122,11 @@ function Trade() {
                 console.log(stock)
                 console.log(stock.idstock)
                 console.log("New Transaction: ", transaction)
-                submitNewData("transaction", "createTransaction", transaction, stock.idstock)
+                submitNewTransaction("transaction", "createTransaction", transaction, userInfo.idcustomer, stock.idstock)
             })
             console.log("Update Customer:", customer)
             updateData("customer", "updateBalance", customer.idcustomer, customer)
-
+            setUserInfo(customer)
             navigate("/")
         }
     }, [transaction, customer])
@@ -126,6 +134,7 @@ function Trade() {
     return (
         <div>
             <h1 className='text-center'>Buy or Sell stocks</h1>
+            <h2>Ready to trade? {userInfo?.username || 'Utilisateur'}</h2>
             <div className='d-flex'>
                 <div className="container ms-5">
                     <div className='row justify-content-center'>

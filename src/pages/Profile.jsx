@@ -2,24 +2,10 @@ import React, { useState, useEffect } from 'react';
 import useAxios from "../hooks/useAxios";
 import '../styles/Profile.css';
 
-const Profile = ({userInfo, setUserInfo, setAuth}) => {
+const Profile = ({ userInfo, setUserInfo}) => {
     const [activeTab, setActiveTab] = useState('account');
     const [isEditing, setIsEditing] = useState(false);
-    
     const [editedUserInfo, setEditedUserInfo] = useState(userInfo);
-
-    
-    const [customer, setCustomer] = useState({
-        idcustomer: "",
-        first_name: "",
-        last_name: "",
-        date_of_birth: "",
-        email: "",
-        phone: "",
-        username: "",
-        password: "",
-        balance: ""
-    });
 
     const [portfolio, setPortfolio] = useState({
         shares_owned: "",
@@ -29,19 +15,19 @@ const Profile = ({userInfo, setUserInfo, setAuth}) => {
         idcustomer: ""
     })
 
+
+
     const [stocks, setStocks] = useState([]);
     const { loadDataWithPathVariable } = useAxios();
 
+
     // Premier render
     useEffect(() => {
-        loadDataWithPathVariable("customer", "getCustomer", setCustomer, userInfo.idcustomer)
-        loadDataWithPathVariable("portfolio", "getPortfolio", setPortfolio, 1)
-        loadDataWithPathVariable("transaction", "getQuantityStocksOwned", setStocks, userInfo.idcustomer)
-        console.log("INFOMARTION OF USER: ", userInfo)
-        setAuth(true)
+        console.log(userInfo)
 
+        loadDataWithPathVariable("portfolio", "getPortfolio", setPortfolio, userInfo.idcustomer);
+        loadDataWithPathVariable("transaction", "getQuantityStocksOwned", setStocks, userInfo.idcustomer);
     }, []);
-    
 
     const Change = (e) => {
         const { name, value } = e.target;
@@ -77,15 +63,15 @@ const Profile = ({userInfo, setUserInfo, setAuth}) => {
                 <div className="profile-stats">
                     <div className="stat-item">
                         <span className="stat-value">{portfolio.shares_owned}</span>
-                        <span className="stat-label">Total <br/> Stocks</span>
+                        <span className="stat-label">Total <br /> Stocks</span>
                     </div>
                     <div className="stat-item">
                         <span className="stat-value">{portfolio.total_profit}</span>
-                        <span className="stat-label">Total <br/> Profit</span>
+                        <span className="stat-label">Total <br /> Profit</span>
                     </div>
                     <div className="stat-item">
                         <span className="stat-value">{portfolio.total_value}</span>
-                        <span className="stat-label">Total <br/> Value</span>
+                        <span className="stat-label">Total <br /> Value</span>
                     </div>
                 </div>
             </div>
@@ -102,12 +88,6 @@ const Profile = ({userInfo, setUserInfo, setAuth}) => {
                         onClick={() => setActiveTab('account')}
                     >
                         Compte
-                    </button>
-                    <button
-                        className={`tab ${activeTab === 'security' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('security')}
-                    >
-                        Sécurité
                     </button>
                     <button
                         className={`tab ${activeTab === 'transactions' ? 'active' : ''}`}
@@ -249,7 +229,8 @@ const Profile = ({userInfo, setUserInfo, setAuth}) => {
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
-                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
 
                                     </tr>
                                 </thead>
@@ -257,8 +238,9 @@ const Profile = ({userInfo, setUserInfo, setAuth}) => {
                                     {stocks.map((stock, index) => (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
-                                            <td>{stock.name}</td>
-                                            <td>{stock.price}</td>
+                                            <td>{stock.stock.name}</td>
+                                            <td>{stock.quantity}</td>
+                                            <td>{stock.totalValue}</td>
                                         </tr>
                                     ))}
                                 </tbody>

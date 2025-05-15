@@ -2,21 +2,35 @@ import React from 'react';
 import Navbar from './Navbar'
 
 import '../styles/Header.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 
-function Header() {
+
+function Header({ auth, setAuth, setUserInfo }) {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("loggedUser");
+        localStorage.setItem("auth", "false");
+        setAuth(false);
+        setUserInfo(null);
+        navigate('/login');
+    };
+
     return (
-        <header>
+       <header>
             <div className="layout">
                 <a href="/" className="logo">Assetra</a>
             </div>
-            <Navbar />
+            <Navbar auth={auth} setAuth={setAuth} />
             <div className="header-right d-flex gap-3">
-            
-      <Link to = '/Login'>
-          <button className=" btn-primary">Login</button>
-          </Link>
-                
+                {!auth && (
+                    <Link to='/login'>
+                        <button className="btn-primary">Login</button>
+                    </Link>
+                )}
+                {auth && (
+                    <button className='btn-secondary' onClick={handleLogout}>Log out</button>
+                )}
             </div>
         </header>
     );

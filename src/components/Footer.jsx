@@ -8,7 +8,6 @@ function Footer() {
                 <div className="row">
                     <div className="col-6 col-lg-4">
                         <h3 className="fw-bold">Assetra</h3>
-                        <p className="pt-2">321, Lorem ipsum dolor sit amet</p>
                      
                     </div>
                     <div className="col">
