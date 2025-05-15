@@ -2,10 +2,36 @@ import React, { useState, useEffect } from 'react';
 import useAxios from "../hooks/useAxios";
 import '../styles/Profile.css';
 
+
 const Profile = ({ userInfo, setUserInfo}) => {
     const [activeTab, setActiveTab] = useState('account');
     const [isEditing, setIsEditing] = useState(false);
-    const [editedUserInfo, setEditedUserInfo] = useState(userInfo);
+    const [userInfo, setUserInfo] = useState(() => {
+        const savedUser = localStorage.getItem('loggedUser');//prendre les donnes du localstorage de l'utilisateur pour pouvoir les utiliser et initialiser l'état userInfo
+        return savedUser ? JSON.parse(savedUser) : null;// Si aucune donnée n’est trouvée, l’état est null.
+    });
+
+    const [editedUserInfo, setEditedUserInfo] = useState({
+        first_name: userInfo?.first_name || '',
+        last_name: userInfo?.last_name || '',
+        email: userInfo?.email || '',
+        phone: userInfo?.phone || '',
+        username: userInfo?.username || '',
+        date_of_birth: userInfo?.date_of_birth || '',
+        password: userInfo?.password || ''
+    });
+
+    const [customer, setCustomer] = useState({
+        idcustomer: "",
+        first_name: "",
+        last_name: "",
+        date_of_birth: "",
+        email: "",
+        phone: "",
+        username: "",
+        password: "",
+        balance: ""
+    });
 
     const [portfolio, setPortfolio] = useState({
         shares_owned: "",
@@ -18,6 +44,9 @@ const Profile = ({ userInfo, setUserInfo}) => {
 
 
     const [stocks, setStocks] = useState([]);
+
+
+    const { loadDataWithPathVariable, updateData } = useAxios();
     const { loadDataWithPathVariable } = useAxios();
 
 
@@ -29,10 +58,14 @@ const Profile = ({ userInfo, setUserInfo}) => {
         loadDataWithPathVariable("transaction", "getQuantityStocksOwned", setStocks, userInfo.idcustomer);
     }, []);
 
+
+
+    const [transactions, setTransactions] = useState([]);
+
     const Change = (e) => {
         const { name, value } = e.target;
         setEditedUserInfo(prev => ({//est la version précédente du statut (editedUserInfo)
-            prev,//maintient toutes les valeurs précédentes
+            ...prev,//maintient toutes les valeurs précédentes
             [name]: value//remplace uniquement le champ que l'utilisateur est en train de modifier
         }));
     };
@@ -40,9 +73,11 @@ const Profile = ({ userInfo, setUserInfo}) => {
     const Save = () => {
         setUserInfo(editedUserInfo);// ce que l'utilisateur a écrit (editedUserInfo) 
         // devient maintenant sa nouvelle information stockée (userInfo).
-        localStorage.setItem('loggedUser', JSON.stringify(editedUserInfo));// enregistre les nouvelles informations dans le stockage local du navigateur,
+        localStorage.setItem('loggedUser', JSON.stringify(editedUserInfo));
+        updateData("customer", "customers", userInfo.idcustomer , editedUserInfo)// enregistre les nouvelles informations dans le stockage local du navigateur,
         //  afin qu'elles ne soient pas perdues si la page est rechargée.
         setIsEditing(false); //quitte le mode édition
+        //envoie les nouvelles informations à l'API pour mettre à jour le profil de l'utilisateur.
     };
 
     const Edit = () => {
@@ -112,12 +147,12 @@ const Profile = ({ userInfo, setUserInfo}) => {
                                         <label>Prénom</label>
                                         <input
                                             type="text"
-                                            name="firstName"
+                                            name="first_name"
                                             /* Si isEditing est vrai, utiliser editedUserInfo.firstName (s'il existe) ( ou ''(vite) s'il n'existe pas) ;
                                             si isEditing est faux (c'est-à-dire après le :), utiliser userInfo.firstName (s'il existe, ou '' sinon) .
                                             Si on est en mode édition (isEditing === true), on affiche la valeur éditable (editedUserInfo.lastName).
                                             Sinon, on affiche juste la valeur sauvegardée (userInfo.lastName).*/
-                                            value={isEditing ? editedUserInfo?.first_name || '' : userInfo?.first_name || ''}
+                                            value={ editedUserInfo.first_name}
                                             onChange={Change}
                                             readOnly={!isEditing}
                                         />
@@ -126,8 +161,8 @@ const Profile = ({ userInfo, setUserInfo}) => {
                                         <label>Nom</label>
                                         <input
                                             type="text"
-                                            name="lastName"
-                                            value={isEditing ? editedUserInfo?.lastName || '' : userInfo?.lastName || ''}
+                                            name="last_name"
+                                            value={editedUserInfo.last_name }
                                             onChange={Change}
                                             readOnly={!isEditing}//Si on n’est pas en train d’éditer, alors on rend le champ non modifiable.
                                         />
@@ -139,7 +174,7 @@ const Profile = ({ userInfo, setUserInfo}) => {
                                         <input
                                             type="email"
                                             name="email"
-                                            value={isEditing ? editedUserInfo?.email || '' : userInfo?.email || ''}
+                                            value={editedUserInfo.email }
                                             onChange={Change}
                                             readOnly={!isEditing}
                                         />
@@ -149,7 +184,7 @@ const Profile = ({ userInfo, setUserInfo}) => {
                                         <input
                                             type="tel"
                                             name="phone"
-                                            value={isEditing ? editedUserInfo?.phone || '' : userInfo?.phone || ''}
+                                            value={editedUserInfo.phone  }
                                             onChange={Change}
                                             readOnly={!isEditing}
                                         />
@@ -158,11 +193,11 @@ const Profile = ({ userInfo, setUserInfo}) => {
 
                                 <div className="input-row">
                                     <div className="input-group">
-                                        <label>Ville</label>
+                                        <label>Username</label>
                                         <input
                                             type="text"
-                                            name="city"
-                                            value={isEditing ? editedUserInfo?.city || '' : userInfo?.city || ''}
+                                            name="username"
+                                            value={editedUserInfo.username  }
                                             onChange={Change}
                                             readOnly={!isEditing}
 
@@ -171,11 +206,11 @@ const Profile = ({ userInfo, setUserInfo}) => {
                                 </div>
                                 <div className="input-row">
                                     <div className="input-group">
-                                        <label>Adresse</label>
+                                        <label>Date d'annivairsaire</label>
                                         <input
-                                            type="text"
-                                            name="address"
-                                            value={isEditing ? editedUserInfo?.address || '' : userInfo?.address || ''}
+                                            type="date"
+                                            name="date_of_birth"
+                                            value={ editedUserInfo.date_of_birth  }
                                             onChange={Change}
                                             readOnly={!isEditing}
                                         />
@@ -198,6 +233,7 @@ const Profile = ({ userInfo, setUserInfo}) => {
                             <table>
                                 <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>Date</th>
                                         <th>Type</th>
                                         <th>Montant</th>
@@ -205,14 +241,15 @@ const Profile = ({ userInfo, setUserInfo}) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {transactions.map(transaction => (
-                                        <tr key={transaction.id}>
-                                            <td>{transaction.date}</td>
-                                            <td>{transaction.type}</td>
-                                            <td>{transaction.amount}</td>
+                                    {transactions.map((transaction, index) => (
+                                        <tr key={index}>
+                                            <td>{index +1}</td>
+                                            <td>{transaction.transaction_date}</td>
+                                            <td>{transaction.order_type}</td>
+                                            <td>{transaction.net_amount}</td>
                                             <td>
-                                                <span className={`status ${transaction.status}`}>
-                                                    {transaction.status}
+                                                <span className={`status ${transaction.transaction_status}`}>
+                                                    {transaction.transaction_status}
                                                 </span>
                                             </td>
                                         </tr>
