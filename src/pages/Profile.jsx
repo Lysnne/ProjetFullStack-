@@ -6,10 +6,7 @@ import '../styles/Profile.css';
 const Profile = ({ userInfo, setUserInfo}) => {
     const [activeTab, setActiveTab] = useState('account');
     const [isEditing, setIsEditing] = useState(false);
-    const [userInfo, setUserInfo] = useState(() => {
-        const savedUser = localStorage.getItem('loggedUser');//prendre les donnes du localstorage de l'utilisateur pour pouvoir les utiliser et initialiser l'état userInfo
-        return savedUser ? JSON.parse(savedUser) : null;// Si aucune donnée n’est trouvée, l’état est null.
-    });
+
 
     const [editedUserInfo, setEditedUserInfo] = useState({
         first_name: userInfo?.first_name || '',
@@ -21,17 +18,6 @@ const Profile = ({ userInfo, setUserInfo}) => {
         password: userInfo?.password || ''
     });
 
-    const [customer, setCustomer] = useState({
-        idcustomer: "",
-        first_name: "",
-        last_name: "",
-        date_of_birth: "",
-        email: "",
-        phone: "",
-        username: "",
-        password: "",
-        balance: ""
-    });
 
     const [portfolio, setPortfolio] = useState({
         shares_owned: "",
@@ -41,21 +27,16 @@ const Profile = ({ userInfo, setUserInfo}) => {
         idcustomer: ""
     })
 
-
-
     const [stocks, setStocks] = useState([]);
-
-
     const { loadDataWithPathVariable, updateData } = useAxios();
-    const { loadDataWithPathVariable } = useAxios();
 
 
     // Premier render
     useEffect(() => {
         console.log(userInfo)
-
         loadDataWithPathVariable("portfolio", "getPortfolio", setPortfolio, userInfo.idcustomer);
         loadDataWithPathVariable("transaction", "getQuantityStocksOwned", setStocks, userInfo.idcustomer);
+        loadDataWithPathVariable("transaction", "getAllTransactionsById", setTransactions, userInfo.idcustomer)
     }, []);
 
 
