@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import useAxios from "../hooks/useAxios";
 import '../styles/Profile.css';
 
-//Arranger l'envoie bd
+
 const Profile = () => {
     const [activeTab, setActiveTab] = useState('account');
     const [isEditing, setIsEditing] = useState(false);
@@ -55,23 +55,6 @@ const Profile = () => {
 
     }, []);
 
-    // useEffect(() => {
-    //     if (isEditing) {
-    //         cart.map((stock) => {
-    //             console.log(stock)
-    //             console.log(stock.idstock)
-    //             console.log("New Transaction: ", transaction)
-    //             submitNewData("transaction", "createTransaction", transaction, stock.idstock)
-                
-
-    //         })
-    //         console.log("Update Customer:", customer)
-    //         updateData("customer", "updateCustomer", customer.idcustomer, customer)
-
-    //         navigate("/")
-    //     }
-    // }, [transaction, customer])
-
 
 
     const [transactions, setTransactions] = useState([]);
@@ -79,7 +62,7 @@ const Profile = () => {
     const Change = (e) => {
         const { name, value } = e.target;
         setEditedUserInfo(prev => ({//est la version précédente du statut (editedUserInfo)
-            prev,//maintient toutes les valeurs précédentes
+            ...prev,//maintient toutes les valeurs précédentes
             [name]: value//remplace uniquement le champ que l'utilisateur est en train de modifier
         }));
     };
@@ -88,7 +71,7 @@ const Profile = () => {
         setUserInfo(editedUserInfo);// ce que l'utilisateur a écrit (editedUserInfo) 
         // devient maintenant sa nouvelle information stockée (userInfo).
         localStorage.setItem('loggedUser', JSON.stringify(editedUserInfo));
-        updateData("customer", "customers", 1, editedUserInfo)// enregistre les nouvelles informations dans le stockage local du navigateur,
+        updateData("customer", "customers", userInfo.idcustomer , editedUserInfo)// enregistre les nouvelles informations dans le stockage local du navigateur,
         //  afin qu'elles ne soient pas perdues si la page est rechargée.
         setIsEditing(false); //quitte le mode édition
         //envoie les nouvelles informations à l'API pour mettre à jour le profil de l'utilisateur.
@@ -165,7 +148,7 @@ const Profile = () => {
                                         <label>Prénom</label>
                                         <input
                                             type="text"
-                                            name="firstName"
+                                            name="first_name"
                                             /* Si isEditing est vrai, utiliser editedUserInfo.firstName (s'il existe) ( ou ''(vite) s'il n'existe pas) ;
                                             si isEditing est faux (c'est-à-dire après le :), utiliser userInfo.firstName (s'il existe, ou '' sinon) .
                                             Si on est en mode édition (isEditing === true), on affiche la valeur éditable (editedUserInfo.lastName).
@@ -179,7 +162,7 @@ const Profile = () => {
                                         <label>Nom</label>
                                         <input
                                             type="text"
-                                            name="lastName"
+                                            name="last_name"
                                             value={editedUserInfo.last_name }
                                             onChange={Change}
                                             readOnly={!isEditing}//Si on n’est pas en train d’éditer, alors on rend le champ non modifiable.
@@ -214,7 +197,7 @@ const Profile = () => {
                                         <label>Username</label>
                                         <input
                                             type="text"
-                                            name="city"
+                                            name="username"
                                             value={editedUserInfo.username  }
                                             onChange={Change}
                                             readOnly={!isEditing}
@@ -227,8 +210,8 @@ const Profile = () => {
                                         <label>Date d'annivairsaire</label>
                                         <input
                                             type="date"
-                                            name="address"
-                                            value={isEditing ? editedUserInfo.date_of_birth  : userInfo.date_of_birth }
+                                            name="date_of_birth"
+                                            value={ editedUserInfo.date_of_birth  }
                                             onChange={Change}
                                             readOnly={!isEditing}
                                         />
