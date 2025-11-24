@@ -1,0 +1,142 @@
+.btn-primary {
+    background-color: #BC6C25;
+    color: white;
+}
+
+.login-container {
+    display: flex;
+    min-height: 100vh;
+    background-image: url('../images/image2.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.login-form-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    order: 1;
+}
+
+.login-form-wrapper {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 3rem;
+    border-radius: 1rem;
+    width: 100%;
+    max-height: 700%;
+    max-width: 500px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.login-image-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    order: 2;
+}
+
+.login-image-section img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+h2 {
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+input {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: #BC6C25;
+}
+
+#login-button {
+    width: 100%;
+    padding: 1rem;
+    background-color: #BC6C25;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+#login-button:hover {
+    background-color: #9b5820;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(188, 108, 37, 0.3);
+}
+
+#login-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(188, 108, 37, 0.3);
+}
+
+.form-links {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.form-links a {
+    color: #BC6C25;
+    text-decoration: none;
+}
+
+.form-links a:hover {
+    text-decoration: underline;
+}
+
+.form-links p {
+    margin-top: 1rem;
+    color: #666;
+}
+
+.error-message {
+    color: #dc3545;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column;
+    }
+
+    .login-form-section {
+        order: 2;
+    }
+
+    .login-image-section {
+        order: 1;
+        padding: 1rem;
+    }
+
+    .login-form-wrapper {
+        padding: 2rem;
+    }
+}
+  
